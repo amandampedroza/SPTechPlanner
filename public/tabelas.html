@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="./css/tabelas.css">
 </head>
 
 <body>
@@ -87,8 +88,10 @@
                 <h3> <span>}</span> 40% da média</h3>
             </div>
         </div>
-
-        <button class="btn" onclick="submeter()"> Submeter Notas</button>
+        <div class="botoes">
+            <button class="btn" onclick="cadastrarNota()">Cadastrar Notas</button>
+            <button class="btn" onclick="submeter()">Atualizar Notas</button>
+        </div>
 
     </div>
 
@@ -124,8 +127,10 @@
                 <h3> <span class="sprint2">}</span> 40% da média</h3>
             </div>
         </div>
-
-        <button class="btn" onclick="submeter()"> Submeter Notas</button>
+        <div class="botoes">
+            <button class="btn" onclick="cadastrarNotaDois()">Cadastrar Notas</button>
+            <button class="btn" onclick="submeterDois()">Atualizar Notas</button>
+        </div>
     </div>
 
     <div id="SP3" class="Sprint3">
@@ -166,12 +171,15 @@
             </div>
         </div>
 
-        <button class="btn" onclick="submeter()"> Submeter Notas</button>
-
+        <div class="botoes">
+            <button class="btn" onclick="cadastrarNotaTres()">Cadastrar Notas</button>
+            <button class="btn" onclick="submeterTres()">Atualizar Notas</button>
+        </div>
     </div>
 
     <h2>Controle de faltas</h2>
-    <p style="color: grey;">O controle de faltas é feito por AULA, se você faltou em um dia que possui 5 aulas desta matéria são 5 faltas.</p>
+    <p style="color: grey;">O controle de faltas é feito por AULA, se você faltou em um dia que possui 5 aulas desta
+        matéria são 5 faltas.</p>
     <table class="tabelaFaltas">
 
         <tr>
@@ -183,136 +191,21 @@
     </table>
     <p>*Caso não haja faltas nesta disciplina não é necessário preencher este campo.</p>
 
+
     <button class="btn" onclick="submeter()"> Submeter Faltas</button>
 
 
 
-    <p>*O desempenho em SocioEmocional é extremamente individual e sua avaliação é feita de diversas maneiras que vão
+    <!-- <p>*O desempenho em SocioEmocional é extremamente individual e sua avaliação é feita de diversas maneiras que vão
         além das notas, por isso o SPTech Planner não inclui a disciplina :) </p>
     <p>*O campo "Projetos (Ind. + Grupo)" coresponde a nota da Avaliação Final que só é lançada no fim do semestre, caso
-        você ainda não possua essa nota, pode deixar o campo nulo.</p>
+        você ainda não possua essa nota, pode deixar o campo nulo.</p> -->
 </body>
 
 </html>
 
 
-<style>
-    @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
-    body {
-        font-family: "Poppins", serif;
-        padding: 5%;
-    }
-
-    h1{
-        color: #1f2a44;
-        padding: 0;
-        margin-top: 0;
-        font-size: 50px
-    }
-
-    
-    .filtros {
-        width: 100%;
-        display: flex;
-
-    }
-
-    select {
-        font-size: 1rem;
-        font-family: "Poppins", serif;
-        padding: 4px;
-        border: solid 2px #1f2a44;
-        border-radius: 15px;
-        color: #fff;
-        background-color: #1f2a44;
-        padding-right: 1rem;
-        margin: 0 3rem 3rem 0;
-    }
-
-    .Sprint1{
-        display: flex;
-        flex-direction: column;
-        margin-bottom: 5%;
-    }
-    
-    .Sprint2 {
-        display: none;
-        flex-direction: column;
-        margin-bottom: 5%;
-    }
-
-    .Sprint3{
-        display: none;
-        flex-direction: column;
-        margin-bottom: 5%;
-    }
-
-    .tabela1 {
-        display: flex;
-        font-size: 20px;
-        width: 100%;
-        
-
-    }
-
-    .detalhamento {
-        padding: 1%;
-        color: rgb(143, 0, 0);
-    }
-
-    span {
-        font-size: 90px;
-        font-weight: lighter;
-
-    }
-
-    .sprint2 {
-        font-size: 60px;
-    }
-
-    .sem2 {
-        display: none;
-    }
-
-    table {
-        width: 600px;
-        border: 3px solid black;
-
-
-    }
-
-    td {
-        padding: 8px;
-        border: 2px solid black;
-        text-align: center;
-
-    }
-
-    th {
-        background-color: #1f2a44;
-        color: #fff;
-    }
-
-    .btn {
-        padding: .5rem 2rem;
-        background-color: #1f2a44;
-        color: #fff;
-        cursor: pointer;
-        font-size: 1.2rem;
-        border-radius: .5rem;
-        margin-top: 0.7rem;
-        width: 17%;
-    }
-
-    .btn:hover {
-        background-color: #1f2a44a2;
-    }
-
-    p {
-        color: red;
-    }
-</style>
 
 <script>
 
@@ -344,53 +237,111 @@
         }
     }
 
-    function submeter(){
-        var semestre = filtro_semestre.value
-        var sprint = filtro_sprint.value
-        var notaEntrega = nota_entrega.value
-        var notaProva = nota_prova.value
-        var notaEntrega2 = nota_entrega2.value
-        var notaProva2 = nota_prova2.value
-        var notaEntrega3 = nota_entrega3.value
-        var notaProva3 = nota_prova3.value
-        var notaIntegrada = nota_integradinha.value
-        var notaProjetos = nota_projetos.value
-        var aluno = 1
-        
-        
-        if(filtro_semestre.value == '1'){
+    var semestre = filtro_semestre.value
+    var sprint = filtro_sprint.value
+    var aluno = 1
+    var notaEntrega = nota_entrega.value
+    var notaProva = nota_prova.value
+    var notaIntegrada = nota_integradinha.value
+    var notaEntrega2 = nota_entrega2.value
+    var notaProva2 = nota_prova2.value
+    var notaEntrega3 = nota_entrega3.value
+    var notaProva3 = nota_prova3.value
+    var notaProjetos = nota_projetos.value
+
+
+    
+    if (filtro_semestre.value == '1') {
             var materia = sem1.value
-        } else if (filtro_semestre.value == '2'){
-                var materia = sem2.value
+        } else if (filtro_semestre.value == '2') {
+            var materia = sem2.value
         }
 
+    function cadastrarNota() {
+        fetch("/tabelas/cadastrarNota", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                notaEntregaServer: notaEntrega,
+                notaIntegradaServer: notaIntegrada,
+                notaProvaServer: notaProva,
+                sprintServer: sprint,
+                fkAlunoServer: aluno,
+                materiaServer: materia
+            }),
+        })
+            .then(function (resposta) {
+                console.log("resposta: ", resposta);
+            })
+
+
+    }
+
+
+    function submeter() {
 
         fetch("/tabelas/submeter", {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        notaEntregaServer: notaEntrega,
-        notaIntegradaServer: notaIntegrada,
-        notaProjetosServer: notaProjetos,
-        notaProvaServer: notaProva,
-        notaEntrega2Server: notaEntrega2,
-        notaProva2Server: notaProva2,
-        notaEntrega3Server: notaEntrega3,
-        notaProva3Server: notaProva3,
-        sprintServer: sprint,
-        fkAlunoServer: aluno,
-        materiaServer: materia
-      }),
-    })
-      .then(function (resposta) {
-        console.log("resposta: ", resposta);    
-    })
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                notaEntregaServer: notaEntrega,
+                notaIntegradaServer: notaIntegrada,
+                notaProvaServer: notaProva,
+                sprintServer: sprint,
+                fkAlunoServer: aluno,
+                materiaServer: materia
+            }),
+        })
+            .then(function (resposta) {
+                console.log("resposta: ", resposta);
+            })
+    }
 
 
+    function submeterDois() {
+  
+        fetch("/tabelas/submeterDois", {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                notaEntrega2Server: notaEntrega2,
+                notaProva2Server: notaProva2,
+                sprintServer: sprint,
+                fkAlunoServer: aluno,
+                materiaServer: materia
+            }),
+        })
+            .then(function (resposta) {
+                console.log("resposta: ", resposta);
+            })
 
+    }
 
+    function submeterTres() {
+  
+        fetch("/tabelas/submeterTres", {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                notaEntrega3Server: notaEntrega3,
+                notaProva3Server: notaProva3,
+                sprintServer: sprint,
+                fkAlunoServer: aluno,
+                materiaServer: materia,
+                notaProjetosServer: notaProjetos
+            }),
+        })
+            .then(function (resposta) {
+                console.log("resposta: ", resposta);
+            })
 
     }
 

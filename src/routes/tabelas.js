@@ -8,6 +8,17 @@ router.put("/submeter", function (req, res) {
     tabelasController.submeter(req, res);
 });
 
+router.put("/submeterDois", function (req, res) {
+    tabelasController.submeterDois(req, res);
+});
+
+router.put("/submeterTres", function (req, res) {
+    tabelasController.submeterTres(req, res);
+});
+
+router.post("/cadastrarNota", function (req, res) {
+    tabelasController.cadastrarNota(req, res);
+});
 
 
 module.exports = router;
