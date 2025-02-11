@@ -8,8 +8,12 @@ function buscarFaltas(aluno) {
     return database.executar(instrucaoSql);
   }
   
+  function kpiFaltas(aluno) {
+    var instrucaoSql = `SELECT SUM(faltas) AS faltas FROM falta WHERE fkAluno = ${aluno}`
+    return database.executar(instrucaoSql);
+  }
 
 
 module.exports = {
-   buscarFaltas
+   buscarFaltas, kpiFaltas
 };

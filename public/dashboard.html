@@ -13,7 +13,7 @@
 
 <!-- <body onload="validarSessao()"> -->
 
-<body onload="buscarFaltas()">
+<body onload="buscarFaltas(), kpiFaltas()">
  
 
     <div class="container">
@@ -44,7 +44,7 @@
 
         <div class="kpi">
           <div class="texto-kpi">
-            Faltas:
+            Média geral:
           </div>
           <div id="div_album"></div>
         </div>
@@ -52,9 +52,9 @@
 
         <div class="kpi">
           <div class="texto-kpi">
-           Média geral:
+           Faltas:
           </div>
-          <div id="div_albumN"></div>
+          <div style="font-size: 3rem;" id="div_faltas"></div>
         </div>
       </div>
 
@@ -65,8 +65,8 @@
         </div>
 
         <div>
-          <h1 class="titulo">Idade dos usuários</h1>
-          <canvas id="myChartFaltas" width="780px"></canvas>
+          <h1 class="titulo">Faltas</h1>
+          <canvas id="myChartFaltas" width="400px"></canvas>
         </div>
       </div>
     </div>
@@ -173,7 +173,11 @@ function buscarFaltas() {
         for (let i = 0; i < json.length; i++) {
           listaFaltas.push(json[i].qtdFaltas);
           listaMateria.push(json[i].materia);
+         
         }
+        if(!json || json.length === 0 || json[0].qtdFaltas == null){
+            listaFaltas.push(100);
+            listaMateria.push('Presença');} 
 
         // Verifica se já existe um gráfico e o destrói antes de criar um novo
         if (myChartFaltas) {
@@ -202,6 +206,26 @@ function buscarFaltas() {
   });
 }
 
+
+ 
+function kpiFaltas(){
+    var aluno = 1
+    fetch(`/dashboard/kpiFaltas/${aluno}`, {
+      method: "GET"
+    }).then(response =>{
+      if (response.ok) {
+        response.json().then(json =>{
+            if(!json || json.length === 0 || json[0].faltas == null) {
+                div_faltas.innerHTML = "0"}
+                else {
+          div_faltas.innerHTML =  json[0].faltas
+                }
+        })
+      } else {
+        console.error('Erro ao obter dados por quadrante');
+      }
+    })
+  }
 
 </script>
 
