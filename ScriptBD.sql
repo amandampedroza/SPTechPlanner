@@ -46,6 +46,7 @@ notaIntegrada float,
 notaProva float,
 notaProjetos float,
 sprint char(3),
+semestre int,
 fkAluno int,
 fkMateria int,
 constraint fkNotaMateria foreign key (fkMateria) references materia(idMateria),
@@ -85,6 +86,9 @@ INSERT INTO materia (nome, fkSemestre) VALUES
 ('AS', 2), 
 ('SO', 2), 
 ('PI', 2);
+
+insert into materia (nome) values
+('SocioEmocional');
 
 
 
@@ -223,9 +227,184 @@ INSERT INTO nota (notaEntrega, notaIntegrada, notaProva, notaProjetos, sprint, f
 
 UPDATE nota set notaEntrega = 1, notaProva = 2;
 
+
 select * from nota;
 
 insert into nota (fkAluno) values
 (1);
 
 drop table nota;
+
+SELECT 
+    n.fkAluno,
+    a.nome AS nomeAluno,
+    n.fkMateria,
+    m.nome AS nomeMateria,
+    n.sprint,
+    
+    -- Notas ajustadas de cada sprint
+    ROUND(CASE WHEN n.sprint = 'SP1' THEN n.notaProva * 0.4 ELSE NULL END, 1) AS notaProvaAjustada_SP1,
+    ROUND(CASE WHEN n.sprint = 'SP1' THEN n.notaIntegrada * 0.3 ELSE NULL END, 1) AS notaIntegradaAjustada_SP1,
+    ROUND(CASE WHEN n.sprint = 'SP1' THEN n.notaEntrega * 0.3 ELSE NULL END, 1) AS notaEntregaAjustada_SP1,
+
+    ROUND(CASE WHEN n.sprint = 'SP2' THEN n.notaProva * 0.7 ELSE NULL END, 1) AS notaProvaAjustada_SP2,
+    ROUND(CASE WHEN n.sprint = 'SP2' THEN n.notaEntrega * 0.3 ELSE NULL END, 1) AS notaEntregaAjustada_SP2,
+
+    ROUND(CASE WHEN n.sprint = 'SP3' THEN n.notaProva * 0.7 ELSE NULL END, 1) AS notaProvaAjustada_SP3,
+    ROUND(CASE WHEN n.sprint = 'SP3' THEN n.notaEntrega * 0.3 ELSE NULL END, 1) AS notaEntregaAjustada_SP3,
+
+    -- Nota de projetos ajustada
+    ROUND(n.notaProjetos * 0.6, 1) AS notaProjetosAjustada,
+
+    -- Soma das notas ajustadas das sprints
+    ROUND(
+        COALESCE(n.notaProva * 0.4, 0) + COALESCE(n.notaIntegrada * 0.3, 0) + COALESCE(n.notaEntrega * 0.3, 0) + 
+        COALESCE(n.notaProva * 0.7, 0) + COALESCE(n.notaEntrega * 0.3, 0) + 
+        COALESCE(n.notaProva * 0.7, 0) + COALESCE(n.notaEntrega * 0.3, 0), 
+        1
+    ) AS somaNotasSprints,
+
+    -- Nota final: (soma das sprints * 0.6) + notaProjetosAjustada
+    ROUND(
+        (COALESCE(n.notaProva * 0.4, 0) + COALESCE(n.notaIntegrada * 0.3, 0) + COALESCE(n.notaEntrega * 0.3, 0) + 
+         COALESCE(n.notaProva * 0.7, 0) + COALESCE(n.notaEntrega * 0.3, 0) + 
+         COALESCE(n.notaProva * 0.7, 0) + COALESCE(n.notaEntrega * 0.3, 0)) * 0.6
+        + COALESCE(n.notaProjetos * 0.6, 0), 
+        1
+    ) AS notaFinal
+
+FROM nota n
+LEFT JOIN aluno a ON n.fkAluno = a.idAluno
+LEFT JOIN materia m ON n.fkMateria = m.idMateria;
+
+
+select * from nota;
+
+
+SELECT 
+    n.fkAluno,
+    a.nome AS nomeAluno,
+    n.fkMateria,
+    m.nome AS nomeMateria,
+    n.sprint,
+    
+    -- Notas ajustadas de cada sprint
+    ROUND(CASE WHEN n.sprint = 'SP1' THEN n.notaProva * 0.4 ELSE NULL END, 1) AS notaProvaAjustada_SP1,
+    ROUND(CASE WHEN n.sprint = 'SP1' THEN n.notaIntegrada * 0.3 ELSE NULL END, 1) AS notaIntegradaAjustada_SP1,
+    ROUND(CASE WHEN n.sprint = 'SP1' THEN n.notaEntrega * 0.3 ELSE NULL END, 1) AS notaEntregaAjustada_SP1,
+
+    ROUND(CASE WHEN n.sprint = 'SP2' THEN n.notaProva * 0.7 ELSE NULL END, 1) AS notaProvaAjustada_SP2,
+    ROUND(CASE WHEN n.sprint = 'SP2' THEN n.notaEntrega * 0.3 ELSE NULL END, 1) AS notaEntregaAjustada_SP2,
+
+    ROUND(CASE WHEN n.sprint = 'SP3' THEN n.notaProva * 0.7 ELSE NULL END, 1) AS notaProvaAjustada_SP3,
+    ROUND(CASE WHEN n.sprint = 'SP3' THEN n.notaEntrega * 0.3 ELSE NULL END, 1) AS notaEntregaAjustada_SP3,
+
+    -- Nota de projetos ajustada
+    ROUND(n.notaProjetos * 0.6, 1) AS notaProjetosAjustada,
+
+    -- Nota ajustada para cada sprint
+    ROUND(
+        (COALESCE(n.notaProva * 0.4, 0) + COALESCE(n.notaIntegrada * 0.3, 0) + COALESCE(n.notaEntrega * 0.3, 0)) * 0.6 
+        + COALESCE(n.notaProjetos * 0.6, 0), 
+        1
+    ) AS notaFinal_SP1,
+
+    ROUND(
+        (COALESCE(n.notaProva * 0.7, 0) + COALESCE(n.notaEntrega * 0.3, 0)) * 0.6 
+        + COALESCE(n.notaProjetos * 0.6, 0), 
+        1
+    ) AS notaFinal_SP2,
+
+    ROUND(
+        (COALESCE(n.notaProva * 0.7, 0) + COALESCE(n.notaEntrega * 0.3, 0)) * 0.6 
+        + COALESCE(n.notaProjetos * 0.6, 0), 
+        1
+    ) AS notaFinal_SP3,
+
+    -- Média das notas finais das sprints
+    ROUND(
+        (COALESCE(
+            (COALESCE(n.notaProva * 0.4, 0) + COALESCE(n.notaIntegrada * 0.3, 0) + COALESCE(n.notaEntrega * 0.3, 0)) * 0.6 
+            + COALESCE(n.notaProjetos * 0.6, 0), 0)
+        + COALESCE(
+            (COALESCE(n.notaProva * 0.7, 0) + COALESCE(n.notaEntrega * 0.3, 0)) * 0.6 
+            + COALESCE(n.notaProjetos * 0.6, 0), 0)
+        + COALESCE(
+            (COALESCE(n.notaProva * 0.7, 0) + COALESCE(n.notaEntrega * 0.3, 0)) * 0.6 
+            + COALESCE(n.notaProjetos * 0.6, 0), 0)
+        ) / 3, 1
+    ) AS notaFinal
+
+FROM nota n
+LEFT JOIN aluno a ON n.fkAluno = a.idAluno
+LEFT JOIN materia m ON n.fkMateria = m.idMateria;
+
+
+
+SELECT 
+    n.fkAluno,
+    a.nome AS nomeAluno,
+    n.fkMateria,
+    m.nome AS nomeMateria,
+    
+    -- Nota ajustada de cada sprint
+    ROUND(SUM(CASE WHEN n.sprint = 'SP1' THEN (n.notaProva * 0.4 + n.notaIntegrada * 0.3 + n.notaEntrega * 0.3) * 0.4 END), 1) AS notaFinal_SP1,
+    
+    ROUND(SUM(CASE WHEN n.sprint = 'SP2' THEN (n.notaProva * 0.7 + n.notaEntrega * 0.3) * 0.4 END), 1) AS notaFinal_SP2,
+    
+    ROUND(SUM(CASE WHEN n.sprint = 'SP3' THEN (n.notaProva * 0.7 + n.notaEntrega * 0.3) * 0.4 END), 1) AS notaFinal_SP3,
+    
+
+
+    -- Média das notas finais das sprints
+    ROUND(AVG(
+        (CASE WHEN n.sprint = 'SP1' THEN (n.notaProva * 0.4 + n.notaIntegrada * 0.3 + n.notaEntrega * 0.3) * 0.4 + COALESCE(n.notaProjetos * 0.6, 0) END) +
+        (CASE WHEN n.sprint = 'SP2' THEN (n.notaProva * 0.7 + n.notaEntrega * 0.3) * 0.4 + COALESCE(n.notaProjetos * 0.6, 0) END) +
+        (CASE WHEN n.sprint = 'SP3' THEN (n.notaProva * 0.7 + n.notaEntrega * 0.3) * 0.4 + COALESCE(n.notaProjetos * 0.6, 0) END)
+    ), 1) AS notaFinal
+
+FROM nota n
+LEFT JOIN aluno a ON n.fkAluno = a.idAluno
+LEFT JOIN materia m ON n.fkMateria = m.idMateria
+GROUP BY n.fkAluno, a.nome, n.fkMateria, m.nome;
+
+select * from nota;
+
+SELECT 
+    n.semestre,
+    m.nome AS materia,
+    a.nome AS aluno,
+    
+   
+   ROUND( ROUND(SUM(
+        CASE 
+            WHEN n.sprint = 'SP1' THEN (n.notaProva * 0.4 + n.notaIntegrada * 0.3 + n.notaEntrega * 0.3)
+            WHEN n.sprint = 'SP2' THEN (n.notaProva * 0.7 + n.notaEntrega * 0.3)
+            WHEN n.sprint = 'SP3' THEN (n.notaProva * 0.7 + n.notaEntrega * 0.3)
+            ELSE 0
+        END
+    ) * 0.4 + SUM(n.notaProjetos * 0.6), 1) / 3 ,1)  AS notaFinal
+FROM 
+    nota n
+JOIN 
+    materia m ON n.fkMateria = m.idMateria
+JOIN 
+    aluno a ON n.fkAluno = a.idAluno
+WHERE fkAluno = 1
+GROUP BY 
+    n.semestre, 
+    n.fkMateria, 
+    n.fkAluno, 
+    m.nome, 
+    a.nome;	
+
+select * from nota;
+delete from nota where idNota = 6;
+
+
+
+
+
+
+
+

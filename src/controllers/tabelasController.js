@@ -61,12 +61,11 @@ function cadastrarNota3(req, res) {
     var materia = req.body.materiaServer
     var sprint = req.body.sprintServer
     var aluno = req.body.fkAlunoServer
-    var notaProjetos = req.body.notaProjetosServer
     var semestre = req.body.semestreServer
 
 
     // Passe os valores como parâmetro e vá para o arquivo usuarioModel.js
-    tabelasModel.cadastrarNota3(materia, notaEntrega3, notaProva3, sprint, aluno, notaProjetos, semestre)
+    tabelasModel.cadastrarNota3(materia, notaEntrega3, notaProva3, sprint, aluno, semestre)
         .then(
             function (resultado) {
                 res.json(resultado);
@@ -143,10 +142,9 @@ function submeterTres(req, res) {
     var materia = req.body.materiaServer
     var sprint = req.body.sprintServer
     var aluno = req.body.fkAlunoServer
-    var notaProjetos = req.body.notaProjetosServer
     var semestre = req.body.semestreServer
 
-    tabelasModel.submeterTres(materia, notaEntrega3, notaProva3, sprint, aluno, notaProjetos, semestre)
+    tabelasModel.submeterTres(materia, notaEntrega3, notaProva3, sprint, aluno, semestre)
         .then(
             function (resultado) {
                 res.json(resultado);
@@ -188,6 +186,31 @@ function cadastrarFaltas(req, res) {
 }
 
 
+function cadastrarNotaProjetos(req, res) {
+    var notaProjetos = req.body.notaProjetosServer
+    var aluno = req.body.fkAlunoServer
+
+
+    // Passe os valores como parâmetro e vá para o arquivo usuarioModel.js
+    tabelasModel.cadastrarNotaProjetos(notaProjetos, aluno)
+        .then(
+            function (resultado) {
+                res.json(resultado);
+            }
+        ).catch(
+            function (erro) {
+                console.log(erro);
+                console.log(
+                    "\nHouve um erro ao realizar o cadastro! Erro: ",
+                    erro.sqlMessage
+                );
+                res.status(500).json(erro.sqlMessage);
+            }
+        );
+}
+
+
+
 module.exports = {
-    submeter, submeterDois, submeterTres, cadastrarNota, cadastrarNota2, cadastrarNota3, cadastrarFaltas
+    submeter, submeterDois, submeterTres, cadastrarNota, cadastrarNota2, cadastrarNota3, cadastrarFaltas, cadastrarNotaProjetos
 }

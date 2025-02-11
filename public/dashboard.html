@@ -13,7 +13,7 @@
 
 <!-- <body onload="validarSessao()"> -->
 
-<body onload="buscarFaltas(), kpiFaltas()">
+<body onload="buscarFaltas(), kpiFaltas(), buscarMedias()">
  
 
     <div class="container">
@@ -32,21 +32,21 @@
           <div class="texto-kpi">
             Maior média:
           </div>
-          <div style="font-size: 35px;" id="div_idade"></div>
+          <div style="font-size: 35px;" id="div_maiorMedia"></div>
         </div>
 
         <div class="kpi">
           <div style="font-size: 25px;" class="texto-kpi">
           Menor média:
           </div>
-          <div style="font-size: 40px;"  id="div_votos"></div>
+          <div style="font-size: 40px;"  id="div_menorMedia"></div>
         </div>
 
         <div class="kpi">
           <div class="texto-kpi">
             Média geral:
           </div>
-          <div id="div_album"></div>
+          <div style="font-size: 40px;" id="div_media"></div>
         </div>
     
 
@@ -54,14 +54,14 @@
           <div class="texto-kpi">
            Faltas:
           </div>
-          <div style="font-size: 3rem;" id="div_faltas"></div>
+          <div style="font-size: 40px;" id="div_faltas"></div>
         </div>
       </div>
 
       <div class="graficos">
         <div>
-          <h1 class="titulo">Álbuns votados</h1>
-          <canvas id="myChart" width="450px"></canvas>
+          <h1 class="titulo">Médias gerais</h1>
+          <canvas id="myChartMedias" width="750px"></canvas>
         </div>
 
         <div>
@@ -75,8 +75,8 @@
     @import url('https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&display=swap');
 
     body {
-      margin: 0;
-      padding: 0;
+      margin: 2rem;
+      padding: 1rem;
       background-color: rgb(255, 255, 255);
  
     }
@@ -157,8 +157,94 @@
 
  var listaFaltas = []
   var listaMateria = []
-  let myChartFaltas;
+  var listaMedias = []
+  var listaMateriaMedia = []
 
+let myChartMedias;
+  function buscarMedias() {
+  var aluno = 1;
+  fetch(`/dashboard/buscarMedias/${aluno}`, {
+    method: "GET"
+  }).then(response => {
+    if (response.ok) {
+      response.json().then(json => {
+        
+        let listaMateriaMedia = [];
+        let listaMedias = [];
+
+        for (let i = 0; i < json.length; i++) {
+          listaMateriaMedia.push(json[i].materia);  
+          listaMedias.push(Number(json[i].notaFinal));      
+        }
+
+        // Inicializa as variáveis para maior e menor nota
+        var maior = listaMedias[0];
+        var menor = listaMedias[0];
+        var maiorMateria = listaMateriaMedia[0];
+        var menorMateria = listaMateriaMedia[0];
+
+        // Determina a maior e menor nota
+        for (let i = 0; i < listaMedias.length; i++) {
+          var materia_atual = listaMateriaMedia[i];
+          var nota_atual = listaMedias[i];
+
+          if (nota_atual > maior) {
+            maior = nota_atual;
+            maiorMateria = materia_atual;
+          }
+
+          if(nota_atual < menor) {
+            menor = nota_atual;
+            menorMateria = materia_atual;
+          }
+        }
+        
+        // Calcular a soma de todos os elementos
+        var soma = listaMedias.reduce((acc, valor) => acc + valor, 0);
+
+        // Calcular a média
+        var media = soma / listaMedias.length;
+
+        div_maiorMedia.innerHTML = `${maior} <br> ${maiorMateria}`;
+        div_menorMedia.innerHTML = `${menor} <br> ${menorMateria}`;
+        div_media.innerHTML = media.toFixed(2);
+
+        const cores = [
+          "#FF5733", "#33FF57", "#3357FF", "#FF33A1", "#FF9133", "#9B33FF", 
+          "#33FFD7", "#FF5733", "#57FF33", "#3357FF"
+        ];
+
+        if (myChartMedias) {
+          myChartMedias.destroy(); // Destrói o gráfico anterior se houver
+        }
+
+        // Criando o gráfico após preencher os arrays corretamente
+        const ctx_medias = document.getElementById(`myChartMedias`);
+        myChartMedias = new Chart(ctx_medias, {
+          type: "bar",
+          data: {
+            labels: listaMateriaMedia, 
+            datasets: [
+              {
+                label: "Notas por matéria",
+                data: listaMedias, 
+                borderWidth: 2,
+                backgroundColor: cores
+              }
+            ],
+          },
+        });
+      });
+    } else {
+      console.error('Erro ao obter dados por quadrante');
+    }
+  }).catch(error => {
+    console.error('Erro na requisição:', error);
+  });
+}
+
+
+let myChartFaltas;
 function buscarFaltas() {
   var aluno = 1;
   
@@ -179,6 +265,10 @@ function buscarFaltas() {
             listaFaltas.push(100);
             listaMateria.push('Presença');} 
 
+            const cores = [
+          "#FF5733", "#33FF57", "#3357FF", "#FF33A1", "#FF9133", "#9B33FF", 
+          "#33FFD7", "#FF5733", "#57FF33", "#3357FF"
+        ];
         // Verifica se já existe um gráfico e o destrói antes de criar um novo
         if (myChartFaltas) {
           myChartFaltas.destroy();
@@ -194,7 +284,8 @@ function buscarFaltas() {
               {
                 label: "Faltas por matéria",
                 data: listaFaltas,
-                borderWidth: 2
+                borderWidth: 2,
+                backgroundColor: cores
               }
             ],
           },
@@ -226,6 +317,8 @@ function kpiFaltas(){
       }
     })
   }
+
+
 
 </script>
 

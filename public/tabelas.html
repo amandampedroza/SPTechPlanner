@@ -38,6 +38,7 @@
             <option value="4">Int. SO</option>
             <option value="5">Pesquisa e Inovação</option>
             <option value="6">Tecnologia da Informação</option>
+            <option value="11">SocioEmocional</option>
         </select>
 
         <select class="sem2" id="sem2">
@@ -46,6 +47,7 @@
             <option value="9">Análise de Sistemas</option>
             <option value="10">SO</option>
             <option value="5">Pesquisa e Inovação</option>
+            <option value="11">SocioEmocional</option>
         </select>
 
     </div>
@@ -157,17 +159,12 @@
                     <td>70%</td>
                 </tr>
 
-                <tr>
-                    <td>Projetos (Ind. + Grupo)</td>
-                    <td><input id="nota_projetos" type="number" placeholder="0 à 10"></td>
-                    <td>60%</td>
-                </tr>
+
 
             </table>
 
             <div class="detalhamento">
                 <h3> <span class="sprint2">}</span> 40% da média</h3>
-                <h3> 60% da média final</h3>
             </div>
         </div>
 
@@ -176,6 +173,8 @@
             <button class="btn" onclick="submeterTres()">Atualizar Notas</button>
         </div>
     </div>
+
+
 
     <h2>Controle de faltas</h2>
     <p style="color: grey;">O controle de faltas é feito por AULA, se você faltou em um dia que possui 5 aulas desta
@@ -193,6 +192,20 @@
 
 
     <button class="btn" onclick="cadastrarFaltas()"> Submeter Faltas</button>
+
+
+    <h2>Nota de PI (Avaliação Final)</h2>
+    <p style="color: grey;">Cadastre essa nota apenas 1 vez. Não é a nota das sprints de PI e sim a AVALIÇÃO
+        FINAL do semestre.</p>
+    <table>
+        <tr>
+            <td>Projetos (Ind. + Grupo)</td>
+            <td><input id="nota_projetos" type="number" placeholder="0 à 10"></td>
+            <td>60%</td>
+        </tr>
+    </table>
+
+    <button class="btn" onclick="cadastrarNotaProjetos()">Cadastrar Nota</button>
 
 
 
@@ -237,19 +250,19 @@
         }
     }
 
- 
+
     var aluno = 1
-    
-   
+
+
 
     function cadastrarNota() {
-    var semestre = filtro_semestre.value
-    var sprint = filtro_sprint.value
-    var notaEntrega = nota_entrega.value
-    var notaProva = nota_prova.value
-    var notaIntegrada = nota_integradinha.value
+        var semestre = filtro_semestre.value
+        var sprint = filtro_sprint.value
+        var notaEntrega = nota_entrega.value
+        var notaProva = nota_prova.value
+        var notaIntegrada = nota_integradinha.value
 
-    if (filtro_semestre.value == '1') {
+        if (filtro_semestre.value == '1') {
             var materia = sem1.value
         } else if (filtro_semestre.value == '2') {
             var materia = sem2.value
@@ -281,7 +294,7 @@
         var notaEntrega2 = nota_entrega2.value
         var notaProva2 = nota_prova2.value
         var semestre = filtro_semestre.value
-        var sprint = filtro_sprint.value 
+        var sprint = filtro_sprint.value
 
         if (filtro_semestre.value == '1') {
             var materia = sem1.value
@@ -313,7 +326,6 @@
     function cadastrarNota3() {
         var notaEntrega3 = nota_entrega3.value
         var notaProva3 = nota_prova3.value
-        var notaProjetos = nota_projetos.value
         var semestre = filtro_semestre.value
         var sprint = filtro_sprint.value
 
@@ -334,7 +346,6 @@
                 sprintServer: sprint,
                 fkAlunoServer: aluno,
                 materiaServer: materia,
-                notaProjetosServer: notaProjetos,
                 semestreServer: semestre
             }),
         })
@@ -347,13 +358,13 @@
 
 
     function submeter() {
-    var notaEntrega = nota_entrega.value
-    var notaProva = nota_prova.value
-    var notaIntegrada = nota_integradinha.value
-    var semestre = filtro_semestre.value
-    var sprint = filtro_sprint.value
+        var notaEntrega = nota_entrega.value
+        var notaProva = nota_prova.value
+        var notaIntegrada = nota_integradinha.value
+        var semestre = filtro_semestre.value
+        var sprint = filtro_sprint.value
 
-    if (filtro_semestre.value == '1') {
+        if (filtro_semestre.value == '1') {
             var materia = sem1.value
         } else if (filtro_semestre.value == '2') {
             var materia = sem2.value
@@ -391,7 +402,7 @@
         } else if (filtro_semestre.value == '2') {
             var materia = sem2.value
         }
-  
+
         fetch("/tabelas/submeterDois", {
             method: "PUT",
             headers: {
@@ -416,7 +427,6 @@
 
         var notaEntrega3 = nota_entrega3.value
         var notaProva3 = nota_prova3.value
-        var notaProjetos = nota_projetos.value
         var semestre = filtro_semestre.value
         var sprint = filtro_sprint.value
 
@@ -425,7 +435,7 @@
         } else if (filtro_semestre.value == '2') {
             var materia = sem2.value
         }
-  
+
         fetch("/tabelas/submeterTres", {
             method: "PUT",
             headers: {
@@ -437,7 +447,6 @@
                 sprintServer: sprint,
                 fkAlunoServer: aluno,
                 materiaServer: materia,
-                notaProjetosServer: notaProjetos,
                 semestreServer: semestre
             }),
         })
@@ -447,7 +456,27 @@
 
     }
 
-    function cadastrarFaltas (){
+    function cadastrarNotaProjetos() {
+        var notaProjetos = nota_projetos.value
+
+        fetch("/tabelas/cadastrarNotaProjetos", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                notaProjetosServer: notaProjetos,
+                fkAlunoServer: aluno
+
+            }),
+        })
+            .then(function (resposta) {
+                console.log("resposta: ", resposta);
+            })
+
+    }
+
+    function cadastrarFaltas() {
         var faltas = ipt_faltas.value
         var semestre = filtro_semestre.value
 
@@ -457,7 +486,7 @@
             var materia = sem2.value
         }
 
-        
+
         fetch("/tabelas/cadastrarFaltas", {
             method: "POST",
             headers: {

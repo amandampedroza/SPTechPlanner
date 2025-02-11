@@ -12,5 +12,10 @@ router.get("/kpiFaltas/:aluno", function (req,res){
     dashboardController.kpiFaltas(req,res);
 })
 
+router.get("/buscarMedias/:aluno", function (req,res){
+    dashboardController.buscarMedias(req,res);
+})
+
+
 
 module.exports = router;

@@ -32,17 +32,16 @@ function cadastrarNota2(materia, notaEntrega2, notaProva2, sprint, aluno, semest
   return database.executar(instrucaoSql);
 }
 
-function cadastrarNota3(materia, notaEntrega3, notaProva3, sprint, aluno, notaProjetos, semestre) {
-  console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function cadastrar():", notaEntrega3, notaProva3, sprint, aluno, notaProjetos, materia, semestre);
+function cadastrarNota3(materia, notaEntrega3, notaProva3, sprint, aluno, semestre) {
+  console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function cadastrar():", notaEntrega3, notaProva3, sprint, aluno, materia, semestre);
 
   notaEntrega3 = notaEntrega3 !== '' ? notaEntrega3 : 0;
-  notaProva3 = notaProva3 !== '' ? notaProva3 : 0;  
-  notaProjetos = notaProjetos !== '' ? notaProjetos : 0;  
+  notaProva3 = notaProva3 !== '' ? notaProva3 : 0;   
 
   var instrucaoSql =
     `
-      INSERT INTO nota (notaEntrega, notaProva, notaProjetos, sprint, semestre, fkAluno, fkMateria) VALUES 
-      ('${notaEntrega3}', '${notaProva3}', '${notaProjetos}', '${sprint}', '${semestre}', '${aluno}', '${materia}');
+      INSERT INTO nota (notaEntrega, notaProva, sprint, semestre, fkAluno, fkMateria) VALUES 
+      ('${notaEntrega3}', '${notaProva3}', '${sprint}', '${semestre}', '${aluno}', '${materia}');
     `
   console.log("Executando a instrução SQL: \n" + instrucaoSql);
   return database.executar(instrucaoSql);
@@ -86,8 +85,8 @@ SET
         return database.executar(instrucaoSql);
       }
 
-      function submeterTres(materia, notaEntrega3, notaProva3, sprint, aluno, notaProjetos, semestre) {
-        console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function cadastrar():", notaProjetos, notaEntrega3, notaProva3, sprint, aluno, materia, semestre);
+      function submeterTres(materia, notaEntrega3, notaProva3, sprint, aluno, semestre) {
+        console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function cadastrar():", notaEntrega3, notaProva3, sprint, aluno, materia, semestre);
 
         var instrucaoSql =
           `
@@ -95,7 +94,6 @@ SET
       SET 
         notaEntrega = '${notaEntrega3}',
         notaProva = '${notaProva3}',
-        notaProjetos = '${notaProjetos}',
         sprint = '${sprint}',
         semestre = ${semestre}
         WHERE fkAluno = ${aluno} and fkMateria = ${materia}
@@ -118,7 +116,22 @@ SET
         return database.executar(instrucaoSql);
       }
 
+      function cadastrarNotaProjetos(notaProjetos, aluno) {
+        console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function cadastrar():", notaProjetos, aluno);
+      
+        notaProjetos = notaProjetos !== '' ? notaProjetos : 0;  
+      
+        var instrucaoSql =
+          `
+           UPDATE nota
+           set notaProjetos = '${notaProjetos}'
+           WHERE fkAluno = '${aluno}' ;
+          `
+        console.log("Executando a instrução SQL: \n" + instrucaoSql);
+        return database.executar(instrucaoSql);
+      }
+
 
 module.exports = {
-  submeter, submeterDois, submeterTres, cadastrarNota, cadastrarNota2, cadastrarNota3, cadastrarFaltas
+  submeter, submeterDois, submeterTres, cadastrarNota, cadastrarNota2, cadastrarNota3, cadastrarFaltas, cadastrarNotaProjetos
 };

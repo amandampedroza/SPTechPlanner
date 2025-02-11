@@ -34,5 +34,12 @@ router.post("/cadastrarFaltas", function (req, res) {
 });
 
 
+router.post("/cadastrarNotaProjetos", function (req, res) {
+    tabelasController.cadastrarNotaProjetos(req, res);
+});
+
+
+
+
 
 module.exports = router;
