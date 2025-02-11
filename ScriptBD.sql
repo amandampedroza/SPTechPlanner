@@ -37,23 +37,22 @@ fkSemestre int,
 constraint fkMateriaSemestre foreign key (fkSemestre) references semestre(idSemestre)
 );
 
-select * from sprint;
-create table sprint (
-idSprint int primary key auto_increment not null,
-numeroSprint int,
-fkMateria int,
-constraint fkSprintMateria foreign key (fkMateria) references materia(idMateria)
-);
+
 
 create table nota (
 idNota int primary key auto_increment,
-valor float,
-tipoNota varchar(100),
-fkSprint int,
+notaEntrega float,
+notaIntegrada float,
+notaProva float,
+notaProjetos float,
+sprint char(3),
 fkAluno int,
-constraint fkNotaSprint foreign key (fkSprint) references sprint(idSprint),
+fkMateria int,
+constraint fkNotaMateria foreign key (fkMateria) references materia(idMateria),
 constraint fkNotaAluno foreign key (fkAluno) references aluno(idAluno)
 );
+
+drop table nota;
 
 -- INSERTS
 
@@ -87,18 +86,6 @@ INSERT INTO materia (nome, fkSemestre) VALUES
 ('SO', 2), 
 ('PI', 2);
 
-INSERT INTO sprint (numeroSprint, fkMateria) VALUES
-(1, 1), (2, 1), (3, 1), -- Sprints para Algoritmos
-(1, 2), (2, 2), (3, 2), -- Sprints para ArqComp
-(1, 3), (2, 3), (3, 3), -- Sprints para BDD
-(1, 4), (2, 4), (3, 4), -- Sprints para IntSO
-(1, 5), (2, 5), (3, 5), -- Sprints para PI
-(1, 6), (2, 6), (3, 6), -- Sprints para TI
-(1, 7), (2, 7), (3, 7), -- Sprints para CCP
-(1, 8), (2, 8), (3, 8), -- Sprints para LP
-(1, 9), (2, 9), (3, 9), -- Sprints para AS
-(1, 10), (2, 10), (3, 10), -- Sprints para SO
-(1, 11), (2, 11), (3, 11); -- Sprints para PI
 
 
 
@@ -119,6 +106,9 @@ INSERT INTO aluno_semestre (fkAluno, fkSemestre) VALUES
 (2, 2), -- Maria no 2º semestre
 (3, 3); -- Pedro no 3º semestre
 
+INSERT INTO aluno_semestre (fkAluno, fkSemestre)
+VALUES (1, 2);
+
 -- Inserindo notas para o João (idAluno = 1)
 INSERT INTO nota (valor, tipoNota, fkSprint, fkAluno) VALUES
 (8.5, 'Prova', 1, 1), -- Nota da prova para a 1ª sprint de Algoritmos
@@ -136,6 +126,32 @@ INSERT INTO nota (valor, tipoNota, fkSprint, fkAluno) VALUES
 (9.5, 'Prova', 7, 3), -- Nota da prova para a 1ª sprint de CCP
 (8.0, 'Trabalho', 8, 3), -- Nota do trabalho para a 2ª sprint de CCP
 (9.0, 'Prova', 9, 3); -- Nota da prova para a 3ª sprint de CCP
+
+-- João na matéria 'CCP' no 2º semestre (Sprint 1)
+INSERT INTO nota (valor, tipoNota, fkSprint, fkAluno)
+VALUES (8.5, 'Prova', 1, 1);  -- 1 = Sprint 1
+
+-- João na matéria 'CCP' no 2º semestre (Sprint 2)
+INSERT INTO nota (valor, tipoNota, fkSprint, fkAluno)
+VALUES (7.0, 'Trabalho', 2, 1);  -- 2 = Sprint 2
+
+-- João na matéria 'CCP' no 2º semestre (Sprint 3)
+INSERT INTO nota (valor, tipoNota, fkSprint, fkAluno)
+VALUES (9.2, 'Exercício', 3, 1);  -- 3 = Sprint 3
+
+-- João na matéria 'LP' no 2º semestre (Sprint 1)
+INSERT INTO nota (valor, tipoNota, fkSprint, fkAluno)
+VALUES (8.0, 'Prova', 4, 1);  -- 4 = Sprint 1
+
+-- João na matéria 'LP' no 2º semestre (Sprint 2)
+INSERT INTO nota (valor, tipoNota, fkSprint, fkAluno)
+VALUES (6.5, 'Trabalho', 5, 1);  -- 5 = Sprint 2
+
+-- João na matéria 'LP' no 2º semestre (Sprint 3)
+INSERT INTO nota (valor, tipoNota, fkSprint, fkAluno)
+VALUES (7.8, 'Exercício', 6, 1);  -- 6 = Sprint 3
+
+
 
 
 -- SELECT PARA NOTAS DE UMA MATERIA E SEMESTRE
@@ -190,11 +206,7 @@ JOIN aluno a ON n.fkAluno = a.idAluno
 JOIN sprint sp ON n.fkSprint = sp.idSprint
 JOIN materia m ON sp.fkMateria = m.idMateria
 JOIN semestre s ON m.fkSemestre = s.idSemestre
-JOIN aluno_semestre asem ON a.idAluno = asem.fkAluno AND s.idSemestre = asem.fkSemestre
-WHERE s.numeroSemestre = 1
-and m.nome = 'Algoritmos' 
-and s.numeroSemestre = 1;  -- Substituir pelo semestre desejado
-
+JOIN aluno_semestre asem ON a.idAluno = asem.fkAluno AND s.idSemestre = asem.fkSemestre;
 
 SELECT idMateria, nome, fkSemestre
 FROM materia
@@ -207,6 +219,13 @@ JOIN materia m ON sp.fkMateria = m.idMateria
 WHERE m.nome = 'ArqComp' 
 AND n.fkAluno = 2;
 
+INSERT INTO nota (notaEntrega, notaIntegrada, notaProva, notaProjetos, sprint, fkAluno) VALUES ('0', '7.3', '0', '0', 'SP1', '1' );
 
+UPDATE nota set notaEntrega = 1, notaProva = 2;
 
-select * from aluno_semestre;
+select * from nota;
+
+insert into nota (fkAluno) values
+(1);
+
+drop table nota;

@@ -128,7 +128,7 @@
             </div>
         </div>
         <div class="botoes">
-            <button class="btn" onclick="cadastrarNotaDois()">Cadastrar Notas</button>
+            <button class="btn" onclick="cadastrarNota2()">Cadastrar Notas</button>
             <button class="btn" onclick="submeterDois()">Atualizar Notas</button>
         </div>
     </div>
@@ -172,7 +172,7 @@
         </div>
 
         <div class="botoes">
-            <button class="btn" onclick="cadastrarNotaTres()">Cadastrar Notas</button>
+            <button class="btn" onclick="cadastrarNota3()">Cadastrar Notas</button>
             <button class="btn" onclick="submeterTres()">Atualizar Notas</button>
         </div>
     </div>
@@ -184,7 +184,7 @@
 
         <tr>
             <td>Faltas (por SEMESTRE)</td>
-            <td><input id="" type="number" placeholder=""></td>
+            <td><input id="ipt_faltas" type="number" placeholder=""></td>
 
         </tr>
 
@@ -192,7 +192,7 @@
     <p>*Caso não haja faltas nesta disciplina não é necessário preencher este campo.</p>
 
 
-    <button class="btn" onclick="submeter()"> Submeter Faltas</button>
+    <button class="btn" onclick="cadastrarFaltas()"> Submeter Faltas</button>
 
 
 
@@ -237,27 +237,24 @@
         }
     }
 
+ 
+    var aluno = 1
+    
+   
+
+    function cadastrarNota() {
     var semestre = filtro_semestre.value
     var sprint = filtro_sprint.value
-    var aluno = 1
     var notaEntrega = nota_entrega.value
     var notaProva = nota_prova.value
     var notaIntegrada = nota_integradinha.value
-    var notaEntrega2 = nota_entrega2.value
-    var notaProva2 = nota_prova2.value
-    var notaEntrega3 = nota_entrega3.value
-    var notaProva3 = nota_prova3.value
-    var notaProjetos = nota_projetos.value
 
-
-    
     if (filtro_semestre.value == '1') {
             var materia = sem1.value
         } else if (filtro_semestre.value == '2') {
             var materia = sem2.value
         }
 
-    function cadastrarNota() {
         fetch("/tabelas/cadastrarNota", {
             method: "POST",
             headers: {
@@ -269,7 +266,76 @@
                 notaProvaServer: notaProva,
                 sprintServer: sprint,
                 fkAlunoServer: aluno,
-                materiaServer: materia
+                materiaServer: materia,
+                semestreServer: semestre
+            }),
+        })
+            .then(function (resposta) {
+                console.log("resposta: ", resposta);
+            })
+
+
+    }
+
+    function cadastrarNota2() {
+        var notaEntrega2 = nota_entrega2.value
+        var notaProva2 = nota_prova2.value
+        var semestre = filtro_semestre.value
+        var sprint = filtro_sprint.value 
+
+        if (filtro_semestre.value == '1') {
+            var materia = sem1.value
+        } else if (filtro_semestre.value == '2') {
+            var materia = sem2.value
+        }
+
+        fetch("/tabelas/cadastrarNota2", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                notaEntrega2Server: notaEntrega2,
+                notaProva2Server: notaProva2,
+                sprintServer: sprint,
+                fkAlunoServer: aluno,
+                materiaServer: materia,
+                semestreServer: semestre
+            }),
+        })
+            .then(function (resposta) {
+                console.log("resposta: ", resposta);
+            })
+
+
+    }
+
+    function cadastrarNota3() {
+        var notaEntrega3 = nota_entrega3.value
+        var notaProva3 = nota_prova3.value
+        var notaProjetos = nota_projetos.value
+        var semestre = filtro_semestre.value
+        var sprint = filtro_sprint.value
+
+        if (filtro_semestre.value == '1') {
+            var materia = sem1.value
+        } else if (filtro_semestre.value == '2') {
+            var materia = sem2.value
+        }
+
+        fetch("/tabelas/cadastrarNota3", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                notaEntrega3Server: notaEntrega3,
+                notaProva3Server: notaProva3,
+                sprintServer: sprint,
+                fkAlunoServer: aluno,
+                materiaServer: materia,
+                notaProjetosServer: notaProjetos,
+                semestreServer: semestre
             }),
         })
             .then(function (resposta) {
@@ -281,6 +347,17 @@
 
 
     function submeter() {
+    var notaEntrega = nota_entrega.value
+    var notaProva = nota_prova.value
+    var notaIntegrada = nota_integradinha.value
+    var semestre = filtro_semestre.value
+    var sprint = filtro_sprint.value
+
+    if (filtro_semestre.value == '1') {
+            var materia = sem1.value
+        } else if (filtro_semestre.value == '2') {
+            var materia = sem2.value
+        }
 
         fetch("/tabelas/submeter", {
             method: "PUT",
@@ -293,7 +370,8 @@
                 notaProvaServer: notaProva,
                 sprintServer: sprint,
                 fkAlunoServer: aluno,
-                materiaServer: materia
+                materiaServer: materia,
+                semestreServer: semestre
             }),
         })
             .then(function (resposta) {
@@ -303,6 +381,16 @@
 
 
     function submeterDois() {
+        var notaEntrega2 = nota_entrega2.value
+        var notaProva2 = nota_prova2.value
+        var semestre = filtro_semestre.value
+        var sprint = filtro_sprint.value
+
+        if (filtro_semestre.value == '1') {
+            var materia = sem1.value
+        } else if (filtro_semestre.value == '2') {
+            var materia = sem2.value
+        }
   
         fetch("/tabelas/submeterDois", {
             method: "PUT",
@@ -314,7 +402,8 @@
                 notaProva2Server: notaProva2,
                 sprintServer: sprint,
                 fkAlunoServer: aluno,
-                materiaServer: materia
+                materiaServer: materia,
+                semestreServer: semestre
             }),
         })
             .then(function (resposta) {
@@ -324,6 +413,18 @@
     }
 
     function submeterTres() {
+
+        var notaEntrega3 = nota_entrega3.value
+        var notaProva3 = nota_prova3.value
+        var notaProjetos = nota_projetos.value
+        var semestre = filtro_semestre.value
+        var sprint = filtro_sprint.value
+
+        if (filtro_semestre.value == '1') {
+            var materia = sem1.value
+        } else if (filtro_semestre.value == '2') {
+            var materia = sem2.value
+        }
   
         fetch("/tabelas/submeterTres", {
             method: "PUT",
@@ -336,7 +437,8 @@
                 sprintServer: sprint,
                 fkAlunoServer: aluno,
                 materiaServer: materia,
-                notaProjetosServer: notaProjetos
+                notaProjetosServer: notaProjetos,
+                semestreServer: semestre
             }),
         })
             .then(function (resposta) {
@@ -344,5 +446,37 @@
             })
 
     }
+
+    function cadastrarFaltas (){
+        var faltas = ipt_faltas.value
+        var semestre = filtro_semestre.value
+
+        if (filtro_semestre.value == '1') {
+            var materia = sem1.value
+        } else if (filtro_semestre.value == '2') {
+            var materia = sem2.value
+        }
+
+        
+        fetch("/tabelas/cadastrarFaltas", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                faltasServer: faltas,
+                fkAlunoServer: aluno,
+                materiaServer: materia,
+                semestreServer: semestre
+            }),
+        })
+            .then(function (resposta) {
+                console.log("resposta: ", resposta);
+            })
+
+
+
+    }
+
 
 </script>

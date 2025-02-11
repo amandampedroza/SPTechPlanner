@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="website icon" type="png" href="./img/logols.png">
+  <script src="https://kit.fontawesome.com/88fed8b646.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="./js/sessao.js"></script>
+  <title>Dashboard</title>
+</head>
+
+<!-- <body onload="validarSessao()"> -->
+
+<body onload="buscarFaltas()">
+ 
+
+    <div class="container">
+      <div class="navbar">
+
+      </div>
+
+      <div class="titulo">
+        <h1>Seu desempenho</h1>
+        <i style="font-size: 40px;" class="fa-solid fa-magnifying-glass-chart"></i>
+      </div>
+
+
+      <div class="kpis">
+        <div class="kpi">
+          <div class="texto-kpi">
+            Maior média:
+          </div>
+          <div style="font-size: 35px;" id="div_idade"></div>
+        </div>
+
+        <div class="kpi">
+          <div style="font-size: 25px;" class="texto-kpi">
+          Menor média:
+          </div>
+          <div style="font-size: 40px;"  id="div_votos"></div>
+        </div>
+
+        <div class="kpi">
+          <div class="texto-kpi">
+            Faltas:
+          </div>
+          <div id="div_album"></div>
+        </div>
+    
+
+        <div class="kpi">
+          <div class="texto-kpi">
+           Média geral:
+          </div>
+          <div id="div_albumN"></div>
+        </div>
+      </div>
+
+      <div class="graficos">
+        <div>
+          <h1 class="titulo">Álbuns votados</h1>
+          <canvas id="myChart" width="450px"></canvas>
+        </div>
+
+        <div>
+          <h1 class="titulo">Idade dos usuários</h1>
+          <canvas id="myChartFaltas" width="780px"></canvas>
+        </div>
+      </div>
+    </div>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&display=swap');
+
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: rgb(255, 255, 255);
+ 
+    }
+
+    h1 {
+      padding: 15px;
+      margin: 0;
+    }
+
+    
+
+    .home:hover {
+      color: rgb(91, 35, 35);
+    }
+
+    .sair:hover {
+      color: red;
+    }
+
+    .titulo {
+      font-size: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "Afacad Flux", sans-serif;
+      color: #1f2a44;
+      
+
+    }
+
+
+    .kpis {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: "Afacad Flux", sans-serif;
+      padding: 5vh;
+      color: #fff;
+    }
+
+    .texto-kpi{
+      font-size: 22px;
+    }
+
+    .kpi {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      background-color:#1f2a44;
+      width: 14vw;
+      height: 11vw;
+      border-radius: 1vw;
+      text-align: center;
+      font-size: 25px;
+      font-family: "Afacad Flux", sans-serif;
+
+    }
+
+    .graficos {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      
+
+
+
+    }
+  </style>
+
+</body>
+
+</html>
+
+<script>
+
+   
+
+
+ var listaFaltas = []
+  var listaMateria = []
+  let myChartFaltas;
+
+function buscarFaltas() {
+  var aluno = 1;
+  
+  fetch(`/dashboard/buscarFaltas/${aluno}`, {
+    method: "GET"
+  }).then(response => {
+    if (response.ok) {
+      response.json().then(json => {
+    
+
+        // Loop para preencher as listas
+        for (let i = 0; i < json.length; i++) {
+          listaFaltas.push(json[i].qtdFaltas);
+          listaMateria.push(json[i].materia);
+        }
+
+        // Verifica se já existe um gráfico e o destrói antes de criar um novo
+        if (myChartFaltas) {
+          myChartFaltas.destroy();
+        }
+
+        // Criando o gráfico após preencher os arrays corretamente
+        const ctx2_faltas = document.getElementById(`myChartFaltas`);
+        myChartFaltas = new Chart(ctx2_faltas, {
+          type: "doughnut",
+          data: {
+            labels: listaMateria,
+            datasets: [
+              {
+                label: "Faltas por matéria",
+                data: listaFaltas,
+                borderWidth: 2
+              }
+            ],
+          },
+        });
+      });
+    } else {
+      console.error('Erro ao obter dados por quadrante');
+    }
+  });
+}
+
+
+</script>
+

@@ -20,5 +20,19 @@ router.post("/cadastrarNota", function (req, res) {
     tabelasController.cadastrarNota(req, res);
 });
 
+router.post("/cadastrarNota2", function (req, res) {
+    tabelasController.cadastrarNota2(req, res);
+});
+
+router.post("/cadastrarNota3", function (req, res) {
+    tabelasController.cadastrarNota3(req, res);
+});
+
+
+router.post("/cadastrarFaltas", function (req, res) {
+    tabelasController.cadastrarFaltas(req, res);
+});
+
+
 
 module.exports = router;
