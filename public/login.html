@@ -1,84 +1,58 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>AquaTech | Login</title>
-
+    <link rel="stylesheet" href="../css/login.css">
+    <script src="https://kit.fontawesome.com/88fed8b646.js" crossorigin="anonymous"></script>
+    <link rel="website icon" type="png" href="./img/logols.png">
     <script src="./js/sessao.js"></script>
-
-    <link rel="stylesheet" href="./css/estilo.css">
-    <link rel="icon" href="./assets/icon/favicon2.ico">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <title>Login</title>
 </head>
 
 <body>
 
-    <!--Header-->
+    <header>
+        <a class="logo" href="index.html">
+           SPTech Planner
+        </a>
+        <nav class="navbar">
+          <a href="index.html"><i class="fa-solid fa-right-from-bracket"></i></a>    
+      </header>
 
-    <div class="header">
-        <div class="container">
-            <h1 class="titulo">AquaTech</h1>
-            <ul class="navbar">
-                <li>
-                    <a href="index.html">Inicial</a>
-                </li>
-                <li>
-                    <a href="simulador.html">Simulador</a>
-                </li>
-                <li>|</li>
-                <li class="agora">
-                    <a href="#">Login</a>
-                </li>
-                <li>
-                    <a href="cadastro.html">Cadastro</a>
-                </li>
-            </ul>
+
+    <div class="alerta_erro">
+        <div class="card_erro" id="cardErro">
+            <span id="mensagem_erro"></span>
         </div>
+    </div>
+    <div class="navbar">
+        <a class="icon-voltar" href="./index.html"><i class="fa-solid fa-arrow-left"></i></a>
+        <a class="logo"><span>Lana Space</span></a>
+    </div>
+    <span class="titulo">Bem-vindo(a)!</span>
+    <div class="formulario">
+        <div class="campo">
+            <span>E-mail:</span>
+            <input id="email_input" type="text" placeholder="exemplo@gmail.com">
+        </div>
+
+        <div class="campo">
+            <span>Senha:</span>
+            <input id="senha_input" type="password" placeholder="******">
+        </div>
+        <div id="div_erros_login"></div>
+        <button class="botao" onclick="entrar()">Entrar</button>
+        <a href="./cadastro.html" class="texto-link">Não possui uma conta? Cadastre-se!</a>
+    </div>
+
+    
+    <div id="div_aguardar" class="loading-div">
+        <img src="img/gifazul.gif" id="loading-gif" />
     </div>
 
 
-    <div class="login">
-        <div class="alerta_erro">
-            <div class="card_erro" id="cardErro">
-                <span id="mensagem_erro"></span>
-            </div>
-        </div>
-        <div class="container">
-            <div class="card card-login">
-                <h2>Olá de volta!</h2>
-                <div class="formulario">
-                    <div class="campo">
-                        <span>E-mail:</span>
-                        <input id="email_input" type="text" placeholder="Login">
-                    </div>
-                    <div class="campo">
-                        <span>Senha:</span>
-                        <input id="senha_input" type="password" placeholder="******">
-                    </div>
-                    <button class="botao" onclick="entrar()">Entrar</button>
-                </div>
-
-                <div id="div_aguardar" class="loading-div">
-                    <img src="./assets/circle-loading.gif" id="loading-gif">
-                </div>
-
-                <div id="div_erros_login"></div>
-            </div>
-        </div>
-    </div>
-
-    <!--footer inicio-->
-    <div class="footer">
-        <div class="container">
-            <h4>Feito com amor por aluno &hearts; SPTech &copy; 2023</h4>
-            <span class="version">v1.0.0</span>
-        </div>
-    </div>
-    <!--footer fim-->
 
 </body>
 
@@ -95,7 +69,7 @@
 
         if (emailVar == "" || senhaVar == "") {
             cardErro.style.display = "block"
-            mensagem_erro.innerHTML = "(Mensagem de erro para todos os campos em branco)";
+            mensagem_erro.innerHTML = "Preencha todos os campos para continuar";
             finalizarAguardar();
             return false;
         }
@@ -126,11 +100,11 @@
                     console.log(JSON.stringify(json));
                     sessionStorage.EMAIL_USUARIO = json.email;
                     sessionStorage.NOME_USUARIO = json.nome;
-                    sessionStorage.ID_USUARIO = json.id;
-                    sessionStorage.AQUARIOS = JSON.stringify(json.aquarios)
+                    sessionStorage.ID_ALUNO = json.id;
+
 
                     setTimeout(function () {
-                        window.location = "./dashboard/cards.html";
+                        window.location = "tabelas.html";
                     }, 1000); // apenas para exibir o loading
 
                 });
@@ -155,5 +129,7 @@
     function sumirMensagem() {
         cardErro.style.display = "none"
     }
+
+    
 
 </script>

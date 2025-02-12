@@ -215,3 +215,24 @@ header a{
 	transform: translateY(100%);
 } 
 
+.footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #1f2a44;
+    padding: 1%;
+    font-size: 20px;
+    font-family:  "Poppins", serif;
+    color: #ffffff;
+}
+
+.footer a {
+    text-decoration: none;
+    margin-left: 5px;
+    color: #ffffff;
+}
+
+.footer a:hover{
+    color: #5473bc;
+}
+

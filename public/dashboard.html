@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="website icon" type="png" href="./img/logols.png">  
+  <link rel="website icon" type="png" href="./img/logols.png">
   <script src="https://kit.fontawesome.com/88fed8b646.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="./js/sessao.js"></script>
@@ -17,70 +17,71 @@
 
 
 <body onload="buscarFaltas(), kpiFaltas(), buscarMedias()">
- 
+
   <header>
     <a class="logo" href="index.html">
-       SPTech Planner
+      SPTech Planner
     </a>
     <nav class="navbar">
       <a href="./tabelas.html">Coleta de dados</a>
-      <a href=""><i class="fa-solid fa-right-from-bracket"></i></a>    
+      <a href=""><i class="fa-solid fa-right-from-bracket"></i></a>
   </header>
 
-      <div class="titulo">
-        <h1>Meu desempenho
-        <i style="font-size: 30px;" class="fa-solid fa-magnifying-glass-chart"></i> </h1>
+  <div class="titulo">
+    <h1>Meu desempenho
+      <i style="font-size: 30px;" class="fa-solid fa-magnifying-glass-chart"></i>
+    </h1>
+  </div>
+
+  <select class="sem1" id="filtro" onclick="filtroDash()">
+    <option value="1">Todo o curso</option>
+    <option value="2"> Por Semestre</option>
+  </select>
+
+  <div class="todoCurso" id="todoCurso">
+    <div class="kpis">
+      <div class="kpi">
+        <div class="texto-kpi">
+          Maior média:
+        </div>
+        <div style="font-size: 30px;" id="div_maiorMedia"></div>
       </div>
 
-      <select class="sem1" id="filtro" onclick="filtroDash()">
-        <option value="1">Todo o curso</option>
-        <option value="2"> Por Semestre</option>
-      </select>
-
-    <div class="todoCurso" id="todoCurso">
-      <div class="kpis">
-        <div class="kpi">
-          <div class="texto-kpi">
-            Maior média:
-          </div>
-          <div style="font-size: 30px;" id="div_maiorMedia"></div>
-        </div>
-
-        <div class="kpi">
-          <div class="texto-kpi">
+      <div class="kpi">
+        <div class="texto-kpi">
           Menor média:
-          </div>
-          <div style="font-size: 30px;"  id="div_menorMedia"></div>
         </div>
-
-        <div class="kpi">
-          <div class="texto-kpi">
-            Média geral:
-          </div>
-          <div style="font-size: 40px;" id="div_media"></div>
-        </div>
-    
-
-        <div class="kpi">
-          <div class="texto-kpi">
-           Faltas:
-          </div>
-          <div style="font-size: 40px;" id="div_faltas"></div>
-        </div>
+        <div style="font-size: 30px;" id="div_menorMedia"></div>
       </div>
 
-      <div class="graficos">
-        <div>
-          <h1 class="titulo">Médias gerais</h1>
-          <canvas id="myChartMedias" width="750px"></canvas>
+      <div class="kpi">
+        <div class="texto-kpi">
+          Média geral:
         </div>
+        <div style="font-size: 40px;" id="div_media"></div>
+      </div>
 
-        <div>
-          <h1 class="titulo">Faltas</h1>
-          <canvas id="myChartFaltas" width="400px"></canvas>
+
+      <div class="kpi">
+        <div class="texto-kpi">
+          Faltas:
         </div>
+        <div style="font-size: 40px;" id="div_faltas"></div>
       </div>
     </div>
+
+    <div class="graficos">
+      <div>
+        <h1 class="titulo">Médias gerais</h1>
+        <canvas id="myChartMedias" width="750px"></canvas>
+      </div>
+
+      <div>
+        <h1 class="titulo">Faltas</h1>
+        <canvas id="myChartFaltas" width="400px"></canvas>
+      </div>
+    </div>
+  </div>
   </div>
 
   <!-- POR SEMESTRE -->
@@ -96,9 +97,9 @@
 
       <div class="kpi">
         <div style="font-size: 25px;" class="texto-kpi">
-        Menor média:
+          Menor média:
         </div>
-        <div style="font-size: 40px;"  id="div_menorMediaSemestre"></div>
+        <div style="font-size: 40px;" id="div_menorMediaSemestre"></div>
       </div>
 
       <div class="kpi">
@@ -107,11 +108,11 @@
         </div>
         <div style="font-size: 40px;" id="div_mediaSemestre"></div>
       </div>
-  
+
 
       <div class="kpi">
         <div class="texto-kpi">
-         Faltas:
+          Faltas:
         </div>
         <div style="font-size: 40px;" id="div_faltasSemestre"></div>
       </div>
@@ -129,7 +130,7 @@
       </div>
     </div>
   </div>
-</div>
+  </div>
 
 
 
@@ -139,182 +140,202 @@
 
 <script>
 
-function filtroDash() {
-        if (filtro.value == 1) {
-            document.getElementById("semestre").style.display = 'none';
-            document.getElementById("todoCurso").style.display = 'flex';
-            // document.getElementById("sprint").style.display = 'none';
-        } else if (filtro.value == 2) {
-            document.getElementById("semestre").style.display = 'flex';
-            document.getElementById("todoCurso").style.display = 'none';
-            // document.getElementById("SP3").style.display = 'none';
-        // } else if (todoCurso.value == 'SP3') {
-        //     document.getElementById("SP3").style.display = 'flex';
-        //     document.getElementById("SP1").style.display = 'none';
-        //     document.getElementById("SP2").style.display = 'none';
-        // 
-        }
+  function filtroDash() {
+    if (filtro.value == 1) {
+      document.getElementById("semestre").style.display = 'none';
+      document.getElementById("todoCurso").style.display = 'flex';
+      // document.getElementById("sprint").style.display = 'none';
+    } else if (filtro.value == 2) {
+      document.getElementById("semestre").style.display = 'flex';
+      document.getElementById("todoCurso").style.display = 'none';
+      // document.getElementById("SP3").style.display = 'none';
+      // } else if (todoCurso.value == 'SP3') {
+      //     document.getElementById("SP3").style.display = 'flex';
+      //     document.getElementById("SP1").style.display = 'none';
+      //     document.getElementById("SP2").style.display = 'none';
+      // 
     }
+  }
 
-   
 
 
- var listaFaltas = []
+
+  var listaFaltas = []
   var listaMateria = []
   var listaMedias = []
   var listaMateriaMedia = []
 
-let myChartMedias;
+  let myChartMedias;
   function buscarMedias() {
-  var aluno = 1;
-  fetch(`/dashboard/buscarMedias/${aluno}`, {
-    method: "GET"
-  }).then(response => {
-    if (response.ok) {
-      response.json().then(json => {
-        
-        let listaMateriaMedia = [];
-        let listaMedias = [];
+    var aluno = sessionStorage.ID_ALUNO;
+    fetch(`/dashboard/buscarMedias/${aluno}`, {
+      method: "GET"
+    }).then(response => {
+      if (response.ok) {
+        response.json().then(json => {
 
-        for (let i = 0; i < json.length; i++) {
-          listaMateriaMedia.push(json[i].materia);  
-          listaMedias.push(Number(json[i].notaFinal));      
-        }
+          let listaMateriaMedia = [];
+          let listaMedias = [];
 
-        // Inicializa as variáveis para maior e menor nota
-        var maior = listaMedias[0];
-        var menor = listaMedias[0];
-        var maiorMateria = listaMateriaMedia[0];
-        var menorMateria = listaMateriaMedia[0];
+          if (!json || json.length === 0) {
+            listaMedias.push(0);
+            listaMateriaMedia.push('Sem dados')
+            maiorMateria = listaMateriaMedia[0]
+            menorMateria = listaMateriaMedia[0]
+            maior = listaMedias[0]
+            menor = listaMedias[0]
+          } else {
 
-        // Determina a maior e menor nota
-        for (let i = 0; i < listaMedias.length; i++) {
-          var materia_atual = listaMateriaMedia[i];
-          var nota_atual = listaMedias[i];
-
-          if (nota_atual > maior) {
-            maior = nota_atual;
-            maiorMateria = materia_atual;
+          for (let i = 0; i < json.length; i++) {
+            listaMateriaMedia.push(json[i].materia);
+            listaMedias.push(Number(json[i].notaFinal));
           }
 
-          if(nota_atual < menor) {
-            menor = nota_atual;
-            menorMateria = materia_atual;
-          }
-        }
-        
-        // Calcular a soma de todos os elementos
-        var soma = listaMedias.reduce((acc, valor) => acc + valor, 0);
+       
 
-        // Calcular a média
-        var media = soma / listaMedias.length;
+          // Inicializa as variáveis para maior e menor nota
+          var maior = listaMedias[0];
+          var menor = listaMedias[0];
+          var maiorMateria = listaMateriaMedia[0];
+          var menorMateria = listaMateriaMedia[0];
 
-        div_maiorMedia.innerHTML = `${maior} <br> ${maiorMateria}`;
-        div_menorMedia.innerHTML = `${menor} <br> ${menorMateria}`;
-        div_media.innerHTML = media.toFixed(2);
+       
 
-        const cores = [
-          "#FF5733", "#33FF57", "#3357FF", "#FF33A1", "#FF9133", "#9B33FF", 
-          "#33FFD7", "#FF5733", "#57FF33", "#3357FF"
-        ];
+            // Determina a maior e menor nota
+            for (let i = 0; i < listaMedias.length; i++) {
+              var materia_atual = listaMateriaMedia[i];
+              var nota_atual = listaMedias[i];
 
-        if (myChartMedias) {
-          myChartMedias.destroy(); // Destrói o gráfico anterior se houver
-        }
-
-        // Criando o gráfico após preencher os arrays corretamente
-        const ctx_medias = document.getElementById(`myChartMedias`);
-        myChartMedias = new Chart(ctx_medias, {
-          type: "bar",
-          data: {
-            labels: listaMateriaMedia, 
-            datasets: [
-              {
-                label: "Notas por matéria",
-                data: listaMedias, 
-                borderWidth: 2,
-                backgroundColor: cores
+              if (nota_atual > maior) {
+                maior = nota_atual;
+                maiorMateria = materia_atual;
               }
-            ],
-          },
+
+              if (nota_atual < menor) {
+                menor = nota_atual;
+                menorMateria = materia_atual;
+              }
+            }
+          }
+
+
+
+
+
+
+          // Calcular a soma de todos os elementos
+          var soma = listaMedias.reduce((acc, valor) => acc + valor, 0);
+
+          // Calcular a média
+          var media = soma / listaMedias.length;
+
+          div_maiorMedia.innerHTML = `${maior} <br> ${maiorMateria}`;
+          div_menorMedia.innerHTML = `${menor} <br> ${menorMateria}`;
+          div_media.innerHTML = media.toFixed(2);
+
+          const cores = [
+            "#FF5733", "#33FF57", "#3357FF", "#FF33A1", "#FF9133", "#9B33FF",
+            "#33FFD7", "#FF5733", "#57FF33", "#3357FF"
+          ];
+
+          if (myChartMedias) {
+            myChartMedias.destroy(); // Destrói o gráfico anterior se houver
+          }
+
+          // Criando o gráfico após preencher os arrays corretamente
+          const ctx_medias = document.getElementById(`myChartMedias`);
+          myChartMedias = new Chart(ctx_medias, {
+            type: "bar",
+            data: {
+              labels: listaMateriaMedia,
+              datasets: [
+                {
+                  label: "Notas por matéria",
+                  data: listaMedias,
+                  borderWidth: 2,
+                  backgroundColor: cores
+                }
+              ],
+            },
+          });
         });
-      });
-    } else {
-      console.error('Erro ao obter dados por quadrante');
-    }
-  }).catch(error => {
-    console.error('Erro na requisição:', error);
-  });
-}
+      } else {
+        console.error('Erro ao obter dados por quadrante');
+      }
+    }).catch(error => {
+      console.error('Erro na requisição:', error);
+    });
+  }
 
 
-let myChartFaltas;
-function buscarFaltas() {
-  var aluno = 1;
-  
-  fetch(`/dashboard/buscarFaltas/${aluno}`, {
-    method: "GET"
-  }).then(response => {
-    if (response.ok) {
-      response.json().then(json => {
-    
+  let myChartFaltas;
+  function buscarFaltas() {
+    var aluno = sessionStorage.ID_ALUNO;
 
-        // Loop para preencher as listas
-        for (let i = 0; i < json.length; i++) {
-          listaFaltas.push(json[i].qtdFaltas);
-          listaMateria.push(json[i].materia);
-         
-        }
-        if(!json || json.length === 0 || json[0].qtdFaltas == null){
+    fetch(`/dashboard/buscarFaltas/${aluno}`, {
+      method: "GET"
+    }).then(response => {
+      if (response.ok) {
+        response.json().then(json => {
+
+
+          // Loop para preencher as listas
+          for (let i = 0; i < json.length; i++) {
+            listaFaltas.push(json[i].qtdFaltas);
+            listaMateria.push(json[i].materia);
+
+          }
+          if (!json || json.length === 0 || json[0].qtdFaltas == null) {
             listaFaltas.push(100);
-            listaMateria.push('Presença');} 
+            listaMateria.push('Presença');
+          }
 
-            const cores = [
-          "#FF5733", "#33FF57", "#3357FF", "#FF33A1", "#FF9133", "#9B33FF", 
-          "#33FFD7", "#FF5733", "#57FF33", "#3357FF"
-        ];
-        // Verifica se já existe um gráfico e o destrói antes de criar um novo
-        if (myChartFaltas) {
-          myChartFaltas.destroy();
-        }
+          //     const cores = [
+          //   "#FF5733", "#33FF57", "#3357FF", "#FF33A1", "#FF9133", "#9B33FF", 
+          //   "#33FFD7", "#FF5733", "#57FF33", "#3357FF"
+          // ];
+          // Verifica se já existe um gráfico e o destrói antes de criar um novo
+          if (myChartFaltas) {
+            myChartFaltas.destroy();
+          }
 
-        // Criando o gráfico após preencher os arrays corretamente
-        const ctx2_faltas = document.getElementById(`myChartFaltas`);
-        myChartFaltas = new Chart(ctx2_faltas, {
-          type: "doughnut",
-          data: {
-            labels: listaMateria,
-            datasets: [
-              {
-                label: "Faltas por matéria",
-                data: listaFaltas,
-                borderWidth: 2,
-                backgroundColor: cores
-              }
-            ],
-          },
+          // Criando o gráfico após preencher os arrays corretamente
+          const ctx2_faltas = document.getElementById(`myChartFaltas`);
+          myChartFaltas = new Chart(ctx2_faltas, {
+            type: "doughnut",
+            data: {
+              labels: listaMateria,
+              datasets: [
+                {
+                  label: "Faltas por matéria",
+                  data: listaFaltas,
+                  borderWidth: 2
+                }
+              ],
+            },
+          });
         });
-      });
-    } else {
-      console.error('Erro ao obter dados por quadrante');
-    }
-  });
-}
+      } else {
+        console.error('Erro ao obter dados por quadrante');
+      }
+    });
+  }
 
 
- 
-function kpiFaltas(){
-    var aluno = 1
+
+  function kpiFaltas() {
+    var aluno = sessionStorage.ID_ALUNO
     fetch(`/dashboard/kpiFaltas/${aluno}`, {
       method: "GET"
-    }).then(response =>{
+    }).then(response => {
       if (response.ok) {
-        response.json().then(json =>{
-            if(!json || json.length === 0 || json[0].faltas == null) {
-                div_faltas.innerHTML = "0"}
-                else {
-          div_faltas.innerHTML =  json[0].faltas
-                }
+        response.json().then(json => {
+          if (!json || json.length === 0 || json[0].faltas == null) {
+            div_faltas.innerHTML = "0"
+          }
+          else {
+            div_faltas.innerHTML = json[0].faltas
+          }
         })
       } else {
         console.error('Erro ao obter dados por quadrante');
@@ -325,4 +346,3 @@ function kpiFaltas(){
 
 
 </script>
-
