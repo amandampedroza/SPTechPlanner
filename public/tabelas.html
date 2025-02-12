@@ -5,10 +5,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="https://kit.fontawesome.com/88fed8b646.js"></script>
     <link rel="stylesheet" href="./css/tabelas.css">
 </head>
 
 <body>
+
+    <header>
+        <a class="logo" href="index.html">
+           SPTech Planner
+        </a>
+        <nav class="navbar">
+          <a href="./dashboard.html">Dashboard</a>
+          <a href=""><i class="fa-solid fa-right-from-bracket"></i></a>    
+      </header>
 
     <h1>Coleta de dados</h1>
 
@@ -195,13 +205,18 @@
 
 
     <h2>Nota de PI (Avaliação Final)</h2>
-    <p style="color: grey;">Cadastre essa nota apenas 1 vez. Não é a nota das sprints de PI e sim a AVALIÇÃO
+    <p style="color: grey;">Cadastre essa nota apenas 1 vez. Não são as notas das sprints de PI e sim a AVALIÇÃO
         FINAL do semestre.</p>
     <table>
         <tr>
+            <th>Tipo</th>
+            <th>Nota</th>
+            <th>Valor</th>
+        </tr>
+        <tr>
             <td>Projetos (Ind. + Grupo)</td>
             <td><input id="nota_projetos" type="number" placeholder="0 à 10"></td>
-            <td>60%</td>
+            <td>60% da média</td>
         </tr>
     </table>
 

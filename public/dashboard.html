@@ -4,42 +4,53 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="website icon" type="png" href="./img/logols.png">
+  <link rel="website icon" type="png" href="./img/logols.png">  
   <script src="https://kit.fontawesome.com/88fed8b646.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="./js/sessao.js"></script>
+  <link rel="stylesheet" href="./css/dash.css">
   <title>Dashboard</title>
 </head>
 
 <!-- <body onload="validarSessao()"> -->
 
+
+
 <body onload="buscarFaltas(), kpiFaltas(), buscarMedias()">
  
-
-    <div class="container">
-      <div class="navbar">
-
-      </div>
+  <header>
+    <a class="logo" href="index.html">
+       SPTech Planner
+    </a>
+    <nav class="navbar">
+      <a href="./tabelas.html">Coleta de dados</a>
+      <a href=""><i class="fa-solid fa-right-from-bracket"></i></a>    
+  </header>
 
       <div class="titulo">
-        <h1>Seu desempenho</h1>
-        <i style="font-size: 40px;" class="fa-solid fa-magnifying-glass-chart"></i>
+        <h1>Meu desempenho
+        <i style="font-size: 30px;" class="fa-solid fa-magnifying-glass-chart"></i> </h1>
       </div>
 
+      <select class="sem1" id="filtro" onclick="filtroDash()">
+        <option value="1">Todo o curso</option>
+        <option value="2"> Por Semestre</option>
+      </select>
 
+    <div class="todoCurso" id="todoCurso">
       <div class="kpis">
         <div class="kpi">
           <div class="texto-kpi">
             Maior média:
           </div>
-          <div style="font-size: 35px;" id="div_maiorMedia"></div>
+          <div style="font-size: 30px;" id="div_maiorMedia"></div>
         </div>
 
         <div class="kpi">
-          <div style="font-size: 25px;" class="texto-kpi">
+          <div class="texto-kpi">
           Menor média:
           </div>
-          <div style="font-size: 40px;"  id="div_menorMedia"></div>
+          <div style="font-size: 30px;"  id="div_menorMedia"></div>
         </div>
 
         <div class="kpi">
@@ -70,87 +81,80 @@
         </div>
       </div>
     </div>
+  </div>
 
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&display=swap');
+  <!-- POR SEMESTRE -->
 
-    body {
-      margin: 2rem;
-      padding: 1rem;
-      background-color: rgb(255, 255, 255);
- 
-    }
+  <div class="semestre" id="semestre">
+    <div class="kpis">
+      <div class="kpi">
+        <div class="texto-kpi">
+          Maior média:
+        </div>
+        <div style="font-size: 35px;" id="div_maiorMediaSemestre"></div>
+      </div>
 
-    h1 {
-      padding: 15px;
-      margin: 0;
-    }
+      <div class="kpi">
+        <div style="font-size: 25px;" class="texto-kpi">
+        Menor média:
+        </div>
+        <div style="font-size: 40px;"  id="div_menorMediaSemestre"></div>
+      </div>
 
-    
+      <div class="kpi">
+        <div class="texto-kpi">
+          Média geral:
+        </div>
+        <div style="font-size: 40px;" id="div_mediaSemestre"></div>
+      </div>
+  
 
-    .home:hover {
-      color: rgb(91, 35, 35);
-    }
+      <div class="kpi">
+        <div class="texto-kpi">
+         Faltas:
+        </div>
+        <div style="font-size: 40px;" id="div_faltasSemestre"></div>
+      </div>
+    </div>
 
-    .sair:hover {
-      color: red;
-    }
+    <div class="graficos">
+      <div>
+        <h1 class="titulo">Médias gerais</h1>
+        <canvas id="myChartMediasSemestre" width="750px"></canvas>
+      </div>
 
-    .titulo {
-      font-size: 30px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: "Afacad Flux", sans-serif;
-      color: #1f2a44;
-      
-
-    }
-
-
-    .kpis {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-family: "Afacad Flux", sans-serif;
-      padding: 5vh;
-      color: #fff;
-    }
-
-    .texto-kpi{
-      font-size: 22px;
-    }
-
-    .kpi {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-around;
-      background-color:#1f2a44;
-      width: 14vw;
-      height: 11vw;
-      border-radius: 1vw;
-      text-align: center;
-      font-size: 25px;
-      font-family: "Afacad Flux", sans-serif;
-
-    }
-
-    .graficos {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      
+      <div>
+        <h1 class="titulo">Faltas</h1>
+        <canvas id="myChartFaltasSemestre" width="400px"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
 
 
-
-    }
-  </style>
 
 </body>
 
 </html>
 
 <script>
+
+function filtroDash() {
+        if (filtro.value == 1) {
+            document.getElementById("semestre").style.display = 'none';
+            document.getElementById("todoCurso").style.display = 'flex';
+            // document.getElementById("sprint").style.display = 'none';
+        } else if (filtro.value == 2) {
+            document.getElementById("semestre").style.display = 'flex';
+            document.getElementById("todoCurso").style.display = 'none';
+            // document.getElementById("SP3").style.display = 'none';
+        // } else if (todoCurso.value == 'SP3') {
+        //     document.getElementById("SP3").style.display = 'flex';
+        //     document.getElementById("SP1").style.display = 'none';
+        //     document.getElementById("SP2").style.display = 'none';
+        // 
+        }
+    }
 
    
 

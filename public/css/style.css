@@ -88,8 +88,8 @@ header{
 	top: 0;
 	left: 0;
 	right: 0;
-	z-index: 1000; /* deixar o menu a frente do HTML */
-	display: flex; /* deixa tudo na mesma linha */
+	z-index: 1000; 
+	display: flex; 
 	align-items: center;
 	justify-content: space-between;
 	background: #1f2a44;
