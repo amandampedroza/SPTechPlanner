@@ -473,6 +473,7 @@
 
     function cadastrarNotaProjetos() {
         var notaProjetos = nota_projetos.value
+        var semestre = filtro_semestre.value
 
         fetch("/tabelas/cadastrarNotaProjetos", {
             method: "POST",
@@ -481,7 +482,8 @@
             },
             body: JSON.stringify({
                 notaProjetosServer: notaProjetos,
-                fkAlunoServer: aluno
+                fkAlunoServer: aluno,
+                semestreServer: semestre
 
             }),
         })

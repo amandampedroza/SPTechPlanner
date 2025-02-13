@@ -193,7 +193,7 @@
 
        
 
-          // Inicializa as variáveis para maior e menor nota
+          
           var maior = listaMedias[0];
           var menor = listaMedias[0];
           var maiorMateria = listaMateriaMedia[0];
@@ -217,11 +217,6 @@
               }
             }
           }
-
-
-
-
-
 
           // Calcular a soma de todos os elementos
           var soma = listaMedias.reduce((acc, valor) => acc + valor, 0);
@@ -331,7 +326,8 @@
       if (response.ok) {
         response.json().then(json => {
           if (!json || json.length === 0 || json[0].faltas == null) {
-            div_faltas.innerHTML = "0"
+            div_faltas.style.fontSize = '25px'
+            div_faltas.innerHTML = `0 <br> Parabéns! 🎉`
           }
           else {
             div_faltas.innerHTML = json[0].faltas
@@ -342,6 +338,7 @@
       }
     })
   }
+  
 
 
 

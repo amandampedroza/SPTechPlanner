@@ -116,8 +116,8 @@ SET
         return database.executar(instrucaoSql);
       }
 
-      function cadastrarNotaProjetos(notaProjetos, aluno) {
-        console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function cadastrar():", notaProjetos, aluno);
+      function cadastrarNotaProjetos(notaProjetos, aluno, semestre) {
+        console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function cadastrar():", notaProjetos, aluno, semestre);
       
         notaProjetos = notaProjetos !== '' ? notaProjetos : 0;  
       
@@ -125,7 +125,8 @@ SET
           `
            UPDATE nota
            set notaProjetos = '${notaProjetos}'
-           WHERE fkAluno = '${aluno}' ;
+           WHERE fkAluno = '${aluno}' 
+           AND semestre = '${semestre}';
           `
         console.log("Executando a instrução SQL: \n" + instrucaoSql);
         return database.executar(instrucaoSql);

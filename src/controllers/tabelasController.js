@@ -189,10 +189,11 @@ function cadastrarFaltas(req, res) {
 function cadastrarNotaProjetos(req, res) {
     var notaProjetos = req.body.notaProjetosServer
     var aluno = req.body.fkAlunoServer
+    var semestre = req.body.semestreServer
 
 
     // Passe os valores como parâmetro e vá para o arquivo usuarioModel.js
-    tabelasModel.cadastrarNotaProjetos(notaProjetos, aluno)
+    tabelasModel.cadastrarNotaProjetos(notaProjetos, aluno, semestre)
         .then(
             function (resultado) {
                 res.json(resultado);
