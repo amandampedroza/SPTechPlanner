@@ -44,9 +44,17 @@ GROUP BY
     a.nome;	`
     return database.executar(instrucaoSql);
   }
+
+
+  function buscarProvasSprint(aluno) {
+    var instrucaoSql = `select round(avg(n.notaProva),1) as mediaSprint , n.semestre, n.sprint from nota n join aluno a on fkAluno = idAluno 
+    where idAluno = '${aluno}' group by n.semestre, n.sprint;
+    `
+    return database.executar(instrucaoSql);
+  }
   
 
 
 module.exports = {
-   buscarFaltas, kpiFaltas, buscarMedias
+   buscarFaltas, kpiFaltas, buscarMedias, buscarProvasSprint
 };

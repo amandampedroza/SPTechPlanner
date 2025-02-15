@@ -123,7 +123,7 @@ SET
       
         var instrucaoSql =
           `
-           UPDATE nota
+           UPDATE nota  
            set notaProjetos = '${notaProjetos}'
            WHERE fkAluno = '${aluno}' 
            AND semestre = '${semestre}';

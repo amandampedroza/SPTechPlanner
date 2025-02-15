@@ -16,7 +16,7 @@
 
 
 
-<body onload="buscarFaltas(), kpiFaltas(), buscarMedias()">
+<body onload="buscarFaltas(), kpiFaltas(), buscarMedias(), buscarProvasSprint()">
 
   <header>
     <a class="logo" href="index.html">
@@ -28,14 +28,16 @@
   </header>
 
   <div class="titulo">
-    <h1>Meu desempenho
+    <!-- <h1>Meu desempenho
       <i style="font-size: 30px;" class="fa-solid fa-magnifying-glass-chart"></i>
-    </h1>
+    </h1> -->
+
+    <h2> Olá, <span id="b_usuario"></span>! 👋</h2>
   </div>
 
   <select class="sem1" id="filtro" onclick="filtroDash()">
-    <option value="1">Todo o curso</option>
-    <option value="2"> Por Semestre</option>
+    <option value="1">Médias</option>
+    <option value="2">Provas</option>
   </select>
 
   <div class="todoCurso" id="todoCurso">
@@ -84,7 +86,7 @@
   </div>
   </div>
 
-  <!-- POR SEMESTRE -->
+  <!-- POR PROVA -->
 
   <div class="semestre" id="semestre">
     <div class="kpis">
@@ -118,16 +120,16 @@
       </div>
     </div>
 
-    <div class="graficos">
+    <div class="graficos2" style="width: 750px;">
       <div>
-        <h1 class="titulo">Médias gerais</h1>
-        <canvas id="myChartMediasSemestre" width="750px"></canvas>
+        <h1 class="titulo">Média das Provas por Sprint</h1>
+        <canvas id="myChartProvasSprint"></canvas>
       </div>
 
-      <div>
+      <!-- <div>
         <h1 class="titulo">Faltas</h1>
         <canvas id="myChartFaltasSemestre" width="400px"></canvas>
-      </div>
+      </div> -->
     </div>
   </div>
   </div>
@@ -139,6 +141,8 @@
 </html>
 
 <script>
+
+  b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
 
   function filtroDash() {
     if (filtro.value == 1) {
@@ -337,6 +341,82 @@
         console.error('Erro ao obter dados por quadrante');
       }
     })
+  }
+
+  function kpiFaltas() {
+    var aluno = sessionStorage.ID_ALUNO
+    fetch(`/dashboard/kpiFaltas/${aluno}`, {
+      method: "GET"
+    }).then(response => {
+      if (response.ok) {
+        response.json().then(json => {
+          if (!json || json.length === 0 || json[0].faltas == null) {
+            div_faltas.style.fontSize = '25px'
+            div_faltas.innerHTML = `0 <br> Parabéns! 🎉`
+          }
+          else {
+            div_faltas.innerHTML = json[0].faltas
+          }
+        })
+      } else {
+        console.error('Erro ao obter dados por quadrante');
+      }
+    })
+  } 
+
+  var listaMediaProvas = []
+  var listaSprint = []
+
+  let myChartProvasSprint
+  function buscarProvasSprint() {
+    var aluno = sessionStorage.ID_ALUNO;
+
+    fetch(`/dashboard/buscarProvasSprint/${aluno}`, {
+      method: "GET"
+    }).then(response => {
+      if (response.ok) {
+        response.json().then(json => {
+
+
+          
+          for (let i = 0; i < json.length; i++) {
+            listaMediaProvas.push(json[i].mediaSprint);
+            listaSprint.push(json[i].sprint);
+
+          }
+      
+          // Verifica se já existe um gráfico e o destrói antes de criar um novo
+          if (myChartProvasSprint) {
+            myChartProvasSprint.destroy();
+          }
+
+          // Criando o gráfico após preencher os arrays corretamente
+          const ctx_sprint = document.getElementById(`myChartProvasSprint`);
+          myChartProvasSprint = new Chart(ctx_sprint, {
+            type: "line",
+            data: {
+              labels: listaSprint,
+              datasets: [
+                {
+                  label: "Média por Sprint",
+                  data: listaMediaProvas,
+                  borderWidth: 2
+                }
+              ],
+            },
+  //           options: {
+  //             scales: {
+  //               y: {
+  //             beginAtZero: true // Garante que o eixo Y começa do zero
+  //     }
+  //   }
+  // }
+          });
+        });
+      } else {
+        console.error('Erro ao obter dados por quadrante');
+      }
+    });
   }
   
 

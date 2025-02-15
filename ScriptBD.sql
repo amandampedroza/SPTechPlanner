@@ -123,9 +123,9 @@ GROUP BY
     select * from aluno;
     
     
-    select round(avg(n.notaProva),1) , n.semestre, a.nome, n.sprint from nota n join aluno a on fkAluno = idAluno where idAluno = 5 group by n.semestre, n.sprint, a.nome;
-
-
+    select round(avg(n.notaProva),1) as mediaSprint , n.semestre, n.sprint from nota n join aluno a on fkAluno = idAluno where idAluno = 5 group by n.semestre, n.sprint;
+    
+    use SPTechPlanner;
 
 
 
