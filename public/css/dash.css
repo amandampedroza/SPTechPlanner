@@ -61,11 +61,20 @@ header .navbar a:hover{
 }
 
 .titulo {
+  font-size: 20px;
+  display: flex;
+  margin-top: 15px;
+  font-family: "Poppins", serif;
+  color: #1f2a44;
+}
+
+.tituloGraficos {
   font-size: 25px;
   display: flex;
   margin-top: 15px;
   font-family: "Poppins", serif;
   color: #1f2a44;
+  justify-content: center;
 }
 
 

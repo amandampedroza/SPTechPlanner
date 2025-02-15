@@ -10,7 +10,7 @@ GRANT ALL PRIVILEGES ON SPTechPlanner.* TO 'SPTecher'@'SPTech@2025';
 FLUSH PRIVILEGES;
 
 
--- AGORA USANDO O USUARIO SPTecher
+-- USANDO O USUARIO SPTecher
 use SPTechPlanner;
 
 
@@ -48,6 +48,17 @@ constraint fkNotaMateria foreign key (fkMateria) references materia(idMateria),
 constraint fkNotaAluno foreign key (fkAluno) references aluno(idAluno)
 );
 
+create table falta (
+idFalta int primary key auto_increment,
+faltas int,
+fkMateria int,
+fkAluno int,
+semestre int,
+constraint fkMateriaFalta foreign key (fkMateria) references materia(idMateria),
+constraint fkAlunoFalta foreign key (fkAluno) references aluno(idAluno)
+);
+
+
 
 -- INSERTS 
 
@@ -79,11 +90,7 @@ INSERT INTO materia (nome, fkSemestre) VALUES
 ('SO'), 
 ('SocioEmocional');
 
--- Inserindo alunos
-INSERT INTO aluno (nome, email, senha, fkCurso) VALUES
-('João Silva', 'joao@example.com', 'senha123', 1),
-('Maria Oliveira', 'maria@example.com', 'senha456', 2),
-('Pedro Souza', 'pedro@example.com', 'senha789', 3);
+
 
 
 

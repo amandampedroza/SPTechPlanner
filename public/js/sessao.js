@@ -34,3 +34,6 @@ function finalizarAguardar(texto) {
     }
 }
 
+
+
+

@@ -7,18 +7,19 @@
     <title>Document</title>
     <script src="https://kit.fontawesome.com/88fed8b646.js"></script>
     <link rel="stylesheet" href="./css/tabelas.css">
+    <script src="./js/sessao.js"></script>
 </head>
 
 <body>
 
     <header>
-        <a class="logo" href="index.html">
-           SPTech Planner
+        <a class="logo">
+            SPTech Planner
         </a>
         <nav class="navbar">
-          <a href="./dashboard.html">Dashboard</a>
-          <a href="index.html"><i class="fa-solid fa-right-from-bracket"></i></a>    
-      </header>
+            <a href="./dashboard.html">Dashboard</a>
+            <a href="index.html"><i class="fa-solid fa-right-from-bracket"></i></a>
+    </header>
 
     <h1>Coleta de dados</h1>
 
@@ -76,21 +77,21 @@
 
                 <tr>
                     <td>Entrega</td>
-                    <td><input id="nota_entrega" type="number" placeholder="0 à 10"></td>
+                    <td><input id="nota_entrega" type="number" placeholder="0 à 10" min="0" max="10"></td>
                     <td>30%</td>
                 </tr>
 
 
                 <tr>
                     <td>Integradinha</td>
-                    <td><input id="nota_integradinha" type="number" placeholder="0 à 10"></td>
+                    <td><input id="nota_integradinha" type="number" placeholder="0 à 10" min="0" max="10"></td>
                     <td>30%</td>
                 </tr>
 
 
                 <tr>
                     <td>Prova</td>
-                    <td><input id="nota_prova" type="number" placeholder="0 à 10"></td>
+                    <td><input id="nota_prova" type="number" placeholder="0 à 10" min="0" max="10"></td>
                     <td>40%</td>
                 </tr>
 
@@ -100,9 +101,19 @@
                 <h3> <span>}</span> 40% da média</h3>
             </div>
         </div>
+
+
+
         <div class="botoes">
             <button class="btn" onclick="cadastrarNota()">Cadastrar Notas</button>
             <button class="btn" onclick="submeter()">Atualizar Notas</button>
+        </div>
+
+        <div class="erroCadastro">
+            <div class="mensagem-erro" id="div_mensagem_erro1" style="display: flex;"></div>
+        </div>
+        <div class="sucessoCadastro">
+            <div class="mensagem-sucesso" id="div_mensagem_sucesso1" style="display: flex;"></div>
         </div>
 
     </div>
@@ -123,13 +134,13 @@
 
                 <tr>
                     <td>Entrega</td>
-                    <td><input id="nota_entrega2" type="number" placeholder="0 à 10"></td>
+                    <td><input id="nota_entrega2" type="number" placeholder="0 à 10" min="0" max="10"></td>
                     <td>30%</td>
                 </tr>
 
                 <tr>
                     <td>Prova</td>
-                    <td><input id="nota_prova2" type="number" placeholder="0 à 10"></td>
+                    <td><input id="nota_prova2" type="number" placeholder="0 à 10" min="0" max="10"></td>
                     <td>70%</td>
                 </tr>
 
@@ -139,9 +150,16 @@
                 <h3> <span class="sprint2">}</span> 40% da média</h3>
             </div>
         </div>
+
         <div class="botoes">
             <button class="btn" onclick="cadastrarNota2()">Cadastrar Notas</button>
             <button class="btn" onclick="submeterDois()">Atualizar Notas</button>
+        </div>
+        <div class="erroCadastro">
+            <div class="mensagem-erro" id="div_mensagem_erro2" style="display: flex;"></div>
+        </div>
+        <div class="sucessoCadastro">
+            <div class="mensagem-sucesso" id="div_mensagem_sucesso2" style="display: flex;"></div>
         </div>
     </div>
 
@@ -159,13 +177,13 @@
 
                 <tr>
                     <td>Entrega</td>
-                    <td><input id="nota_entrega3" type="number" placeholder="0 à 10"></td>
+                    <td><input id="nota_entrega3" type="number" placeholder="0 à 10" min="0" max="10"></td>
                     <td>30%</td>
                 </tr>
 
                 <tr>
                     <td>Prova</td>
-                    <td><input id="nota_prova3" type="number" placeholder="0 à 10"></td>
+                    <td><input id="nota_prova3" type="number" placeholder="0 à 10" min="0" max="10"></td>
                     <td>70%</td>
                 </tr>
 
@@ -182,6 +200,13 @@
             <button class="btn" onclick="cadastrarNota3()">Cadastrar Notas</button>
             <button class="btn" onclick="submeterTres()">Atualizar Notas</button>
         </div>
+
+        <div class="erroCadastro">
+            <div class="mensagem-erro" id="div_mensagem_erro3" style="display: flex;"></div>
+        </div>
+        <div class="sucessoCadastro">
+            <div class="mensagem-sucesso" id="div_mensagem_sucesso3" style="display: flex;"></div>
+        </div>
     </div>
 
 
@@ -193,15 +218,22 @@
 
         <tr>
             <td>Faltas (por SEMESTRE)</td>
-            <td><input id="ipt_faltas" type="number" placeholder=""></td>
+            <td><input id="ipt_faltas" type="number" placeholder="Faltas dessa matéria" min="1"></td>
 
         </tr>
 
     </table>
     <p>*Caso não haja faltas nesta disciplina não é necessário preencher este campo.</p>
 
-
     <button class="btn" onclick="cadastrarFaltas()"> Submeter Faltas</button>
+
+    <div class="erroCadastro">
+        <div class="mensagem-erroFaltas" id="div_mensagem_erroFalta" style="display: flex;"></div>
+    </div>
+    <div class="sucessoCadastro">
+        <div class="mensagem-sucessoFaltas" id="div_mensagem_sucessoFalta" style="display: flex;"></div>
+    </div>
+
 
 
     <h2>Nota de PI (Avaliação Final)</h2>
@@ -215,12 +247,21 @@
         </tr>
         <tr>
             <td>Projetos (Ind. + Grupo)</td>
-            <td><input id="nota_projetos" type="number" placeholder="0 à 10"></td>
+            <td><input id="nota_projetos" type="number" placeholder="0 à 10" min="0" max="10"></td>
             <td>60% da média</td>
         </tr>
     </table>
 
     <button class="btn" onclick="cadastrarNotaProjetos()">Cadastrar Nota</button>
+
+    <div class="erroCadastro">
+        <div class="mensagem-erroPI" id="div_mensagem_erroPI" style="display: flex;"></div>
+    </div>
+    <div class="sucessoCadastro">
+        <div class="mensagem-sucessoPI" id="div_mensagem_sucessoPI" style="display: flex;"></div>
+    </div>
+    </div>
+
 
 
 
@@ -266,11 +307,12 @@
     }
 
 
-    var aluno = sessionStorage.ID_ALUNO 
+    var aluno = sessionStorage.ID_ALUNO
 
 
 
     function cadastrarNota() {
+
         var semestre = filtro_semestre.value
         var sprint = filtro_sprint.value
         var notaEntrega = nota_entrega.value
@@ -282,6 +324,21 @@
         } else if (filtro_semestre.value == '2') {
             var materia = sem2.value
         }
+
+        if (notaEntrega == '' || notaIntegrada == '' || notaProva == '' || notaEntrega < 0 || notaIntegrada < 0 || notaProva < 0 ||
+            notaEntrega > 10 || notaIntegrada > 10 || notaProva > 10) {
+
+            div_mensagem_erro1.innerHTML = `❌ Erro ao cadastrar notas. Preencha todos os campos com valores válidos.`
+
+            setTimeout(() => {
+                document.getElementById("div_mensagem_erro1").style.display = "none";
+            }, 3000);
+
+            sumirMensagemErro()
+
+            return;
+        }
+
 
         fetch("/tabelas/cadastrarNota", {
             method: "POST",
@@ -303,6 +360,17 @@
             })
 
 
+        div_mensagem_sucesso1.innerHTML = `✅ Notas cadastradas com sucesso`
+
+
+
+        setTimeout(() => {
+            document.getElementById("div_mensagem_sucesso1").style.display = "none";
+        }, 3000);
+
+        sumirMensagemSucesso()
+
+
     }
 
     function cadastrarNota2() {
@@ -315,6 +383,21 @@
             var materia = sem1.value
         } else if (filtro_semestre.value == '2') {
             var materia = sem2.value
+        }
+
+        if (notaEntrega2 == '' || notaProva2 == '' || notaEntrega2 < 0 || notaProva2 < 0 ||
+            notaEntrega2 > 10 || notaProva2 > 10) {
+
+            div_mensagem_erro2.innerHTML = `❌ Erro ao cadastrar notas. Preencha todos os campos com valores válidos.`
+
+            setTimeout(() => {
+                document.getElementById("div_mensagem_erro2").style.display = "none";
+            }, 3000);
+
+            sumirMensagemErro()
+
+            return;
+
         }
 
         fetch("/tabelas/cadastrarNota2", {
@@ -335,6 +418,13 @@
                 console.log("resposta: ", resposta);
             })
 
+        div_mensagem_sucesso2.innerHTML = `✅ Notas cadastradas com sucesso`
+        setTimeout(() => {
+            document.getElementById("div_mensagem_sucesso2").style.display = "none";
+        }, 3000);
+
+        sumirMensagemSucesso()
+
 
     }
 
@@ -348,6 +438,21 @@
             var materia = sem1.value
         } else if (filtro_semestre.value == '2') {
             var materia = sem2.value
+        }
+
+        if (notaEntrega3 == '' || notaProva3 == '' || notaEntrega3 < 0 || notaProva3 < 0 ||
+            notaEntrega3 > 10 || notaProva3 > 10) {
+
+            div_mensagem_erro3.innerHTML = `❌ Erro ao cadastrar notas. Preencha todos os campos com valores válidos.`
+
+            setTimeout(() => {
+                document.getElementById("div_mensagem_erro3").style.display = "none";
+            }, 3000);
+
+            sumirMensagemErro()
+
+            return;
+
         }
 
         fetch("/tabelas/cadastrarNota3", {
@@ -368,6 +473,12 @@
                 console.log("resposta: ", resposta);
             })
 
+        div_mensagem_sucesso3.innerHTML = `✅ Notas cadastradas com sucesso`
+        setTimeout(() => {
+            document.getElementById("div_mensagem_sucesso3").style.display = "none";
+        }, 3000);
+
+        sumirMensagemSucesso()
 
     }
 
@@ -383,6 +494,20 @@
             var materia = sem1.value
         } else if (filtro_semestre.value == '2') {
             var materia = sem2.value
+        }
+
+        if (notaEntrega == '' || notaIntegrada == '' || notaProva == '' || notaEntrega < 0 || notaIntegrada < 0 || notaProva < 0 ||
+            notaEntrega > 10 || notaIntegrada > 10 || notaProva > 10) {
+
+            div_mensagem_erro1.innerHTML = `❌ Erro ao atualizar notas. Preencha todos os campos com valores válidos.`
+
+            setTimeout(() => {
+                document.getElementById("div_mensagem_erro1").style.display = "none";
+            }, 3000);
+
+            sumirMensagemErro()
+
+            return;
         }
 
         fetch("/tabelas/submeter", {
@@ -403,6 +528,16 @@
             .then(function (resposta) {
                 console.log("resposta: ", resposta);
             })
+
+        div_mensagem_sucesso1.innerHTML = `✅ Notas atualizadas com sucesso`
+
+
+
+        setTimeout(() => {
+            document.getElementById("div_mensagem_sucesso1").style.display = "none";
+        }, 3000);
+
+        sumirMensagemSucesso()
     }
 
 
@@ -417,6 +552,23 @@
         } else if (filtro_semestre.value == '2') {
             var materia = sem2.value
         }
+
+
+        if (notaEntrega2 == '' || notaProva2 == '' || notaEntrega2 < 0 || notaProva2 < 0 ||
+            notaEntrega2 > 10 || notaProva2 > 10) {
+
+            div_mensagem_erro2.innerHTML = `❌ Erro ao atualizar notas. Preencha todos os campos com valores válidos.`
+
+            setTimeout(() => {
+                document.getElementById("div_mensagem_erro2").style.display = "none";
+            }, 3000);
+
+            sumirMensagemErro()
+
+            return;
+
+        }
+
 
         fetch("/tabelas/submeterDois", {
             method: "PUT",
@@ -436,6 +588,13 @@
                 console.log("resposta: ", resposta);
             })
 
+        div_mensagem_sucesso2.innerHTML = `✅ Notas atualizadas com sucesso`
+        setTimeout(() => {
+            document.getElementById("div_mensagem_sucesso2").style.display = "none";
+        }, 3000);
+
+        sumirMensagemSucesso()
+
     }
 
     function submeterTres() {
@@ -449,6 +608,22 @@
             var materia = sem1.value
         } else if (filtro_semestre.value == '2') {
             var materia = sem2.value
+        }
+
+
+        if (notaEntrega3 == '' || notaProva3 == '' || notaEntrega3 < 0 || notaProva3 < 0 ||
+            notaEntrega3 > 10 || notaProva3 > 10) {
+
+            div_mensagem_erro3.innerHTML = `❌ Erro ao cadastrar notas. Preencha todos os campos com valores válidos.`
+
+            setTimeout(() => {
+                document.getElementById("div_mensagem_erro3").style.display = "none";
+            }, 3000);
+
+            sumirMensagemErro()
+
+            return;
+
         }
 
         fetch("/tabelas/submeterTres", {
@@ -469,11 +644,33 @@
                 console.log("resposta: ", resposta);
             })
 
+        div_mensagem_sucesso3.innerHTML = `✅ Notas atualizadas com sucesso`
+        setTimeout(() => {
+            document.getElementById("div_mensagem_sucesso3").style.display = "none";
+        }, 3000);
+
+        sumirMensagemSucesso()
+
     }
 
     function cadastrarNotaProjetos() {
         var notaProjetos = nota_projetos.value
         var semestre = filtro_semestre.value
+
+
+        if (notaProjetos == '' || notaProjetos < 0 || notaProjetos > 10) {
+
+            div_mensagem_erroPI.innerHTML = `❌ Erro ao cadastrar avaliação final. Preencha o campo com um valor válido.`
+
+            setTimeout(() => {
+                document.getElementById("div_mensagem_erroPI").style.display = "none";
+            }, 3000);
+
+            sumirMensagemErroPI()
+
+            return;
+
+        }
 
         fetch("/tabelas/cadastrarNotaProjetos", {
             method: "POST",
@@ -491,6 +688,13 @@
                 console.log("resposta: ", resposta);
             })
 
+            div_mensagem_sucessoPI.innerHTML = `✅ Avaliação final cadastrada com sucesso`
+        setTimeout(() => {
+            document.getElementById("div_mensagem_sucessoPI").style.display = "none";
+        }, 3000);
+
+        sumirMensagemSucessoPI()
+
     }
 
     function cadastrarFaltas() {
@@ -501,6 +705,20 @@
             var materia = sem1.value
         } else if (filtro_semestre.value == '2') {
             var materia = sem2.value
+        }
+
+        if (faltas == '' || faltas < 0) {
+
+            div_mensagem_erroFalta.innerHTML = `❌ Erro ao cadastrar faltas. Preencha o campo com um valor válido.`
+
+            setTimeout(() => {
+                document.getElementById("div_mensagem_erroFalta").style.display = "none";
+            }, 3000);
+
+            sumirMensagemErroFaltas()
+
+            return;
+
         }
 
 
@@ -520,9 +738,51 @@
                 console.log("resposta: ", resposta);
             })
 
+        div_mensagem_sucessoFalta.innerHTML = `✅ Faltas cadastradas com sucesso`
+        setTimeout(() => {
+            document.getElementById("div_mensagem_sucessoFalta").style.display = "none";
+        }, 3000);
 
+        sumirMensagemSucessoFaltas()
 
     }
 
+
+
+    function sumirMensagemSucesso() {
+        document.querySelectorAll(".mensagem-sucesso").forEach(div => {
+            div.style.display = "flex";
+        });
+    }
+
+    function sumirMensagemErro() {
+        document.querySelectorAll(".mensagem-erro").forEach(div => {
+            div.style.display = "flex";
+        });
+    }
+
+    function sumirMensagemSucessoFaltas() {
+        document.querySelectorAll(".mensagem-sucessoFaltas").forEach(div => {
+            div.style.display = "flex";
+        });
+    }
+
+    function sumirMensagemErroFaltas() {
+        document.querySelectorAll(".mensagem-erroFaltas").forEach(div => {
+            div.style.display = "flex";
+        });
+    }
+
+    function sumirMensagemSucessoPI() {
+        document.querySelectorAll(".mensagem-sucessoPI").forEach(div => {
+            div.style.display = "flex";
+        });
+    }
+
+    function sumirMensagemErroPI() {
+        document.querySelectorAll(".mensagem-erroPI").forEach(div => {
+            div.style.display = "flex";
+        });
+    }
 
 </script>

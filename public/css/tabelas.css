@@ -161,3 +161,23 @@
         color: red;
         margin: 0 ;
     }
+
+    .erroCadastro{
+        display: flex;
+        font-size: 18px;
+        background-color: #ff7a7a96;
+        color: #ff0000;
+        width: fit-content;
+        margin-top: 1rem;
+        
+    }
+
+    .sucessoCadastro{
+        display: flex;
+        font-size: 18px;
+        background-color: #7aff895e;
+        color: #106a00;
+        width: fit-content;
+        margin-top: 1rem;
+    }
+

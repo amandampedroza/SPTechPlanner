@@ -19,7 +19,7 @@
 <body onload="buscarFaltas(), kpiFaltas(), buscarMedias(), buscarProvasSprint()">
 
   <header>
-    <a class="logo" href="index.html">
+    <a class="logo">
       SPTech Planner
     </a>
     <nav class="navbar">
@@ -74,12 +74,12 @@
 
     <div class="graficos">
       <div>
-        <h1 class="titulo">Médias gerais</h1>
+        <h1 class="tituloGraficos">Médias gerais</h1>
         <canvas id="myChartMedias" width="750px"></canvas>
       </div>
 
       <div>
-        <h1 class="titulo">Faltas</h1>
+        <h1 class="tituloGraficos">Faltas</h1>
         <canvas id="myChartFaltas" width="400px"></canvas>
       </div>
     </div>
@@ -122,7 +122,7 @@
 
     <div class="graficos2" style="width: 750px;">
       <div>
-        <h1 class="titulo">Média das Provas por Sprint</h1>
+        <h1 class="tituloGraficos">Média das Provas por Sprint</h1>
         <canvas id="myChartProvasSprint"></canvas>
       </div>
 
@@ -172,6 +172,8 @@
   let myChartMedias;
   function buscarMedias() {
     var aluno = sessionStorage.ID_ALUNO;
+
+
     fetch(`/dashboard/buscarMedias/${aluno}`, {
       method: "GET"
     }).then(response => {
