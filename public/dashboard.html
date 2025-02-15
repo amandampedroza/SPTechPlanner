@@ -24,7 +24,7 @@
     </a>
     <nav class="navbar">
       <a href="./tabelas.html">Coleta de dados</a>
-      <a href=""><i class="fa-solid fa-right-from-bracket"></i></a>
+      <a href="index.html"><i class="fa-solid fa-right-from-bracket"></i></a>
   </header>
 
   <div class="titulo">
@@ -258,6 +258,19 @@
                 }
               ],
             },
+            options: {
+        scales: {
+            x: {
+                ticks: {
+                    color: "black" // Cor dos labels do eixo X
+                }
+            },
+            y: {
+                ticks: {
+                    color: "black" // Cor dos labels do eixo Y
+                }
+            }
+        }}
           });
         });
       } else {
@@ -323,28 +336,6 @@
   }
 
 
-
-  function kpiFaltas() {
-    var aluno = sessionStorage.ID_ALUNO
-    fetch(`/dashboard/kpiFaltas/${aluno}`, {
-      method: "GET"
-    }).then(response => {
-      if (response.ok) {
-        response.json().then(json => {
-          if (!json || json.length === 0 || json[0].faltas == null) {
-            div_faltas.style.fontSize = '25px'
-            div_faltas.innerHTML = `0 <br> Parabéns! 🎉`
-          }
-          else {
-            div_faltas.innerHTML = json[0].faltas
-          }
-        })
-      } else {
-        console.error('Erro ao obter dados por quadrante');
-      }
-    })
-  }
-
   function kpiFaltas() {
     var aluno = sessionStorage.ID_ALUNO
     fetch(`/dashboard/kpiFaltas/${aluno}`, {
@@ -406,13 +397,19 @@
                 }
               ],
             },
-  //           options: {
-  //             scales: {
-  //               y: {
-  //             beginAtZero: true // Garante que o eixo Y começa do zero
-  //     }
-  //   }
-  // }
+            options: {
+        scales: {
+            x: {
+                ticks: {
+                    color: "black" // Cor dos labels do eixo X
+                }
+            },
+            y: {
+                ticks: {
+                    color: "black" // Cor dos labels do eixo Y
+                }
+            }
+        }}
           });
         });
       } else {
