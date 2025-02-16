@@ -94,40 +94,40 @@
         <div class="texto-kpi">
           Maior média:
         </div>
-        <div style="font-size: 35px;" id="div_maiorMediaSemestre"></div>
+        <div style="font-size: 35px;" id="div_maiorMediaProvas"></div>
       </div>
 
       <div class="kpi">
         <div style="font-size: 25px;" class="texto-kpi">
           Menor média:
         </div>
-        <div style="font-size: 40px;" id="div_menorMediaSemestre"></div>
+        <div style="font-size: 40px;" id="div_menorMediaProvas"></div>
       </div>
 
       <div class="kpi">
         <div class="texto-kpi">
           Média geral:
         </div>
-        <div style="font-size: 40px;" id="div_mediaSemestre"></div>
+        <div style="font-size: 40px;" id="div_mediaProvas"></div>
       </div>
 
 
       <div class="kpi">
         <div class="texto-kpi">
-          Faltas:
+          Melhor desempenho:
         </div>
-        <div style="font-size: 40px;" id="div_faltasSemestre"></div>
+        <div style="font-size: 25px;" id="div_desempenhoProvas"></div>
       </div>
     </div>
 
-    <div class="graficos2" style="width: 750px;">
-      <div>
+    <div class="graficos2">
+      <div class="graficos-provas">
         <h1 class="tituloGraficos">Média das provas por Sprint</h1>
-        <canvas id="myChartProvasSprint"></canvas>
+        <canvas  id="myChartProvasSprint"></canvas>
       </div>
 
-      <div>
-        <h1 class="titulo">Média das provas por matéria</h1>
+      <div  class="graficos-provas">
+        <h1 class="tituloGraficos">Média das provas por matéria</h1>
         <canvas id="myChartMediaProvas"></canvas>
       </div>
     </div>
@@ -359,6 +359,7 @@
 
   var listaMediaProvas = []
   var listaSprint = []
+  var listaSemestre = []
 
   let myChartProvasSprint
   function buscarProvasSprint() {
@@ -373,10 +374,31 @@
 
           
           for (let i = 0; i < json.length; i++) {
-            listaMediaProvas.push(json[i].mediaSprint);
+            listaMediaProvas.push(Number(json[i].mediaSprint));
             listaSprint.push(json[i].sprint);
+            listaSemestre.push(json[i].semestre)
+
 
           }
+
+          var maiorDesempenho = listaMediaProvas[0]
+          var maiorDesempenhoSprint = listaSprint[0]
+          var maiorDesempenhoSemestre = listaSemestre[0]
+
+          for (let i = 0; i < listaMediaProvas.length; i++) {
+            var mediaAtual = listaMediaProvas[i];
+            var sprintAtual = listaSprint[i];
+            var semestreAtual = listaSemestre[i];
+
+            if(mediaAtual > maiorDesempenho){
+              maiorDesempenho = mediaAtual
+              maiorDesempenhoSprint = sprintAtual
+              maiorDesempenhoSemestre = semestreAtual
+            }
+            
+          }
+
+          div_desempenhoProvas.innerHTML = `${sprintAtual} <br> ${semestreAtual}º semestre`
       
           // Verifica se já existe um gráfico e o destrói antes de criar um novo
           if (myChartProvasSprint) {
@@ -471,15 +493,13 @@
             }
           }
 
-          // Calcular a soma de todos os elementos
           var soma =listaMediasProvas.reduce((acc, valor) => acc + valor, 0);
 
-          // Calcular a média
           var media = soma /listaMediasProvas.length;
 
-          div_maiorMedia.innerHTML = `${maior} <br> ${maiorMateriaProva}`;
-          div_menorMedia.innerHTML = `${menor} <br> ${menorMateriaProva}`;
-          div_media.innerHTML = media.toFixed(2);
+          div_maiorMediaProvas.innerHTML = `${maior} <br> ${maiorMateriaProva}`;
+          div_menorMediaProvas.innerHTML = `${menor} <br> ${menorMateriaProva}`;
+          div_mediaProvas.innerHTML = media.toFixed(2);
 
           const cores = [
             "#FF5733", "#33FF57", "#3357FF", "#FF33A1", "#FF9133", "#9B33FF",

@@ -134,3 +134,15 @@ select {
     padding-right: 1rem;
    
 }
+
+.graficos2 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center ;
+    
+}
+
+.graficos-provas {
+  width: 75%;
+}
