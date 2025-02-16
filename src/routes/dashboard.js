@@ -20,6 +20,10 @@ router.get("/buscarProvasSprint/:aluno", function (req,res){
     dashboardController.buscarProvasSprint(req,res);
 })
 
+router.get("/buscarMediasProvas/:aluno", function (req,res){
+    dashboardController.buscarMediasProvas(req,res);
+})
+
 
 
 module.exports = router;

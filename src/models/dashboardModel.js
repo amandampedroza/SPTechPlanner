@@ -52,9 +52,20 @@ GROUP BY
     `
     return database.executar(instrucaoSql);
   }
+
+
+  
+  function buscarMediasProvas(aluno) {
+    var instrucaoSql = `select round(avg(n.notaProva),1) as mediaProvas, m.nome from nota n join aluno a on fkAluno = idAluno join materia m 
+    on fkMateria = idMateria where idAluno = '${aluno}' group by m.nome;
+    `
+    return database.executar(instrucaoSql);
+  }
+  
+
   
 
 
 module.exports = {
-   buscarFaltas, kpiFaltas, buscarMedias, buscarProvasSprint
+   buscarFaltas, kpiFaltas, buscarMedias, buscarProvasSprint, buscarMediasProvas
 };

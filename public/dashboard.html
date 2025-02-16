@@ -16,7 +16,7 @@
 
 
 
-<body onload="buscarFaltas(), kpiFaltas(), buscarMedias(), buscarProvasSprint()">
+<body onload="buscarFaltas(), kpiFaltas(), buscarMedias(), buscarProvasSprint(), buscarMediasProvas()">
 
   <header>
     <a class="logo">
@@ -122,14 +122,14 @@
 
     <div class="graficos2" style="width: 750px;">
       <div>
-        <h1 class="tituloGraficos">Média das Provas por Sprint</h1>
+        <h1 class="tituloGraficos">Média das provas por Sprint</h1>
         <canvas id="myChartProvasSprint"></canvas>
       </div>
 
-      <!-- <div>
-        <h1 class="titulo">Faltas</h1>
-        <canvas id="myChartFaltasSemestre" width="400px"></canvas>
-      </div> -->
+      <div>
+        <h1 class="titulo">Média das provas por matéria</h1>
+        <canvas id="myChartMediaProvas"></canvas>
+      </div>
     </div>
   </div>
   </div>
@@ -415,6 +415,115 @@
       } else {
         console.error('Erro ao obter dados por quadrante');
       }
+    });
+  }
+
+
+  let myChartMediaProvas;
+  function buscarMediasProvas() {
+    var aluno = sessionStorage.ID_ALUNO;
+
+    fetch(`/dashboard/buscarMediasProvas/${aluno}`, {
+      method: "GET"
+    }).then(response => {
+      if (response.ok) {
+        response.json().then(json => {
+
+          let listaMateriaMediaProvas = [];
+          let listaMediasProvas = [];
+
+          if (!json || json.length === 0) {
+            listaMediasProvas.push(0);
+            listaMateriaMediaProvas.push('Sem dados')
+            maiorMateriaProva = listaMateriaMediaProvas[0]
+            menorMateriaProva = listaMateriaMediaProvas[0]
+            maior = listaMediasProvas[0]
+            menor = listaMediasProvas[0]
+          } else {
+
+          for (let i = 0; i < json.length; i++) {
+            listaMateriaMediaProvas.push(json[i].nome);
+           listaMediasProvas.push(Number(json[i].mediaProvas));
+          }
+
+       
+
+          
+          var maior = listaMediasProvas[0];
+          var menor = listaMediasProvas[0];
+          var maiorMateriaProva = listaMateriaMediaProvas[0];
+          var menorMateriaProva = listaMateriaMediaProvas[0];
+
+      
+            for (let i = 0; i <listaMediasProvas.length; i++) {
+              var materia_atual = listaMateriaMediaProvas[i];
+              var nota_atual =listaMediasProvas[i];
+
+              if (nota_atual > maior) {
+                maior = nota_atual;
+                maiorMateriaProva = materia_atual;
+              }
+
+              if (nota_atual < menor) {
+                menor = nota_atual;
+                menorMateriaProva = materia_atual;
+              }
+            }
+          }
+
+          // Calcular a soma de todos os elementos
+          var soma =listaMediasProvas.reduce((acc, valor) => acc + valor, 0);
+
+          // Calcular a média
+          var media = soma /listaMediasProvas.length;
+
+          div_maiorMedia.innerHTML = `${maior} <br> ${maiorMateriaProva}`;
+          div_menorMedia.innerHTML = `${menor} <br> ${menorMateriaProva}`;
+          div_media.innerHTML = media.toFixed(2);
+
+          const cores = [
+            "#FF5733", "#33FF57", "#3357FF", "#FF33A1", "#FF9133", "#9B33FF",
+            "#33FFD7", "#FF5733", "#57FF33", "#3357FF"
+          ];
+
+          if (myChartMediaProvas) {
+            myChartMediaProvas.destroy(); // Destrói o gráfico anterior se houver
+          }
+
+          const ctx_MediaProvas = document.getElementById(`myChartMediaProvas`);
+          myChartMediaProvas = new Chart(ctx_MediaProvas, {
+            type: "bar",
+            data: {
+              labels: listaMateriaMediaProvas,
+              datasets: [
+                {
+                  label: "Notas por matéria",
+                  data:listaMediasProvas,
+                  borderWidth: 2,
+                  backgroundColor: cores
+                }
+              ],
+            },
+            options: {
+        scales: {
+            x: {
+                ticks: {
+                    color: "black" // Cor dos labels do eixo X
+                }
+            },
+            y: {
+                ticks: {
+                    color: "black" // Cor dos labels do eixo Y
+                }
+            }
+        }}
+          });
+        });
+      } else {
+        console.error('Erro ao obter dados por quadrante');
+      }
+    }).catch(error => {
+      console.error('Erro na requisição:', error);
     });
   }
   
