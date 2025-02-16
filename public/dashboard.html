@@ -9,6 +9,7 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="./js/sessao.js"></script>
   <link rel="stylesheet" href="./css/dash.css">
+  <link rel="website icon" type="png" href="./img/relatorio.png">
   <title>Dashboard</title>
 </head>
 
@@ -66,7 +67,7 @@
 
       <div class="kpi">
         <div class="texto-kpi">
-          Faltas:
+          Faltas por aula:
         </div>
         <div style="font-size: 40px;" id="div_faltas"></div>
       </div>
@@ -79,7 +80,7 @@
       </div>
 
       <div>
-        <h1 class="tituloGraficos">Faltas</h1>
+        <h1 class="tituloGraficos">Faltas por matéria</h1>
         <canvas id="myChartFaltas" width="400px"></canvas>
       </div>
     </div>
@@ -94,21 +95,21 @@
         <div class="texto-kpi">
           Maior média:
         </div>
-        <div style="font-size: 35px;" id="div_maiorMediaProvas"></div>
+        <div style="font-size: px;" id="div_maiorMediaProvas"></div>
       </div>
 
       <div class="kpi">
         <div style="font-size: 25px;" class="texto-kpi">
           Menor média:
         </div>
-        <div style="font-size: 40px;" id="div_menorMediaProvas"></div>
+        <div style="font-size: 30px;" id="div_menorMediaProvas"></div>
       </div>
 
       <div class="kpi">
         <div class="texto-kpi">
           Média geral:
         </div>
-        <div style="font-size: 40px;" id="div_mediaProvas"></div>
+        <div style="font-size: 30px;" id="div_mediaProvas"></div>
       </div>
 
 
@@ -152,12 +153,7 @@
     } else if (filtro.value == 2) {
       document.getElementById("semestre").style.display = 'flex';
       document.getElementById("todoCurso").style.display = 'none';
-      // document.getElementById("SP3").style.display = 'none';
-      // } else if (todoCurso.value == 'SP3') {
-      //     document.getElementById("SP3").style.display = 'flex';
-      //     document.getElementById("SP1").style.display = 'none';
-      //     document.getElementById("SP2").style.display = 'none';
-      // 
+ 
     }
   }
 
