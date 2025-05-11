@@ -157,9 +157,6 @@
     }
   }
 
-
-
-
   var listaFaltas = []
   var listaMateria = []
   var listaMedias = []
@@ -220,10 +217,10 @@
             }
           }
 
-          // Calcular a soma de todos os elementos
+          // Calcula a soma de todos os elementos
           var soma = listaMedias.reduce((acc, valor) => acc + valor, 0);
 
-          // Calcular a média
+          // Calcula a média
           var media = soma / listaMedias.length;
 
           div_maiorMedia.innerHTML = `${maior} <br> ${maiorMateria}`;
@@ -289,7 +286,7 @@
         response.json().then(json => {
 
 
-          // Loop para preencher as listas
+       
           for (let i = 0; i < json.length; i++) {
             listaFaltas.push(json[i].qtdFaltas);
             listaMateria.push(json[i].materia);
